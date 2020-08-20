@@ -23,7 +23,7 @@ public class SpawnManagerScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 bulletPos = new Vector3(PlayerControllerScript.transform.position.x + 1, PlayerControllerScript.transform.position.y, PlayerControllerScript.transform.position.z);
-            Instantiate(prefabs[0], bulletPos, prefabs[0].transform.rotation);
+            Instantiate(prefabs[0], bulletPos, PlayerControllerScript.transform.rotation);
         }
     }
 }

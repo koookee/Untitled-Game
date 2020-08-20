@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed = 2.0f;
     private float jumpForce = 5.0f;
     private int doubleJump = 2;
+    private int rotateSpeed = 500;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        RotatePlayer();
         MoveFunc();
         JumpFunc();
     }
@@ -49,5 +51,11 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.forward * Time.deltaTime * vertical * playerSpeed);
         transform.Translate(Vector3.right * Time.deltaTime * horizontal * playerSpeed);
+    }
+    private void RotatePlayer()
+    {
+        //Rotates player around the Y axis
+        float horizontalInput = Input.GetAxis("Mouse X");
+        transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
     }
 }
