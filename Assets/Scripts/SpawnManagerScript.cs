@@ -22,8 +22,9 @@ public class SpawnManagerScript : MonoBehaviour
         //Spawns bullets from the player's side
         if (Input.GetMouseButtonDown(0))
         {
-            Vector3 bulletPos = new Vector3(PlayerControllerScript.transform.position.x + 1, PlayerControllerScript.transform.position.y, PlayerControllerScript.transform.position.z);
-            Instantiate(prefabs[0], bulletPos, PlayerControllerScript.transform.rotation);
+            //Bullets spawn at the invisible object location (BulletPos)
+            GameObject BulletPos = GameObject.FindGameObjectWithTag("BulletPos");
+            Instantiate(prefabs[0], BulletPos.transform.position, PlayerControllerScript.transform.rotation);
         }
     }
 }

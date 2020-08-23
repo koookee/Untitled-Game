@@ -16,7 +16,7 @@ public class CameraScript : MonoBehaviour
     {
         //This is not working
         float verticalInput = Input.GetAxis("Mouse Y");
-        Debug.Log(transform.rotation.y);
+       // Debug.Log(transform.rotation.y);
         if(transform.rotation.y < 20 && transform.rotation.y > 5)
         {
             transform.Rotate(Vector3.left, verticalInput * Time.deltaTime * rotateSpeed);
