@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Arm
   - BulletPos
+  - Border
   layers:
   - Default
   - TransparentFX

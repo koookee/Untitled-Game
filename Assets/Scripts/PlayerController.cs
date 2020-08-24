@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private float playerSpeed = 2.0f;
     private float jumpForce = 5.0f;
     private int doubleJump = 2;
-    private int rotateSpeed = 500;
+    private int rotateSpeed = 9 * 100;
 
     // Start is called before the first frame update
     void Start()
