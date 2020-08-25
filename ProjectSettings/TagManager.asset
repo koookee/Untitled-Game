@@ -9,6 +9,7 @@ TagManager:
   - Arm
   - BulletPos
   - Border
+  - Enemy
   layers:
   - Default
   - TransparentFX

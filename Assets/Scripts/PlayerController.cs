@@ -11,11 +11,13 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 5.0f;
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
+    public GameObject Enemy;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
+        Enemy = GameObject.Find("Enemy");
     }
 
     // Update is called once per frame
@@ -33,6 +35,10 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             doubleJump = 2;
+        }
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            playerRB.AddForce(Vector3.up * 10, ForceMode.Impulse);
         }
     }
     private void JumpFunc()
@@ -58,4 +64,5 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
     }
+    
 }
