@@ -11,13 +11,14 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 5.0f;
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
-    public GameObject Enemy;
+    public EnemyScript Enemy;
+    private int health = 10;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
-        Enemy = GameObject.Find("Enemy");
+        
     }
 
     // Update is called once per frame
@@ -39,10 +40,15 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        //Calling it from here instead of start because it's only executed once in start 
+        Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyScript>();
+        Vector3 awayDirection = (transform.position - Enemy.transform.position).normalized;
+        awayDirection = new Vector3(awayDirection.x, 1, awayDirection.z);
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            playerRB.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            playerRB.AddForce(awayDirection * 5, ForceMode.Impulse);
         }
+
     }
 
     private void JumpFunc()

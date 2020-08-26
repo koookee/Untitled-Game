@@ -37,6 +37,6 @@ public class EnemyScript : MonoBehaviour
     {
         //Moves enemy towards player
         Vector3 playerDirection = (Player.transform.position - transform.position).normalized;
-        enemyRb.AddForce(playerDirection * enemySpeed);
+        enemyRb.AddForce(playerDirection * enemySpeed * 0.01f, ForceMode.VelocityChange);
     }
 }
