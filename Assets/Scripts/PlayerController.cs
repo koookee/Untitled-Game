@@ -35,12 +35,16 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             doubleJump = 2;
-        }
-        if (other.gameObject.CompareTag("Enemy"))
+        }    
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             playerRB.AddForce(Vector3.up * 10, ForceMode.Impulse);
         }
     }
+
     private void JumpFunc()
     {
         //Takes the input to make the player jump
