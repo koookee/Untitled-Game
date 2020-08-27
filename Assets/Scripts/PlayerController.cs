@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,13 +13,12 @@ public class PlayerController : MonoBehaviour
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
     public EnemyScript Enemy;
-    private int health = 10;
+    public int health = 10;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
-        
     }
 
     // Update is called once per frame
@@ -27,6 +27,11 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
         MoveFunc();
         JumpFunc();
+        /*
+        if(health == 0)
+        {
+            gameObject.SetActive(false);
+        }*/
     }
 
     
@@ -47,6 +52,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             playerRB.AddForce(awayDirection * 5, ForceMode.Impulse);
+            health--;
         }
 
     }
