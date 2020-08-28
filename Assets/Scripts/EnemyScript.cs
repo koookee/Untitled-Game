@@ -5,14 +5,14 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     public Rigidbody enemyRb;
-    public GameObject Player;
+    public PlayerController Player;
     private int enemySpeed = 3;
     // Start is called before the first frame update
     public int health = 4;
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
-        Player = GameObject.Find("Player");
+        Player = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class EnemyScript : MonoBehaviour
     {
         //Checks if the player is still alive
         //NOT WORKING!!!!!
-        if (Player.gameObject.activeSelf)
+        if (Player.gameObject.activeSelf == true)
         {
             //Moves enemy towards player
             Vector3 playerDirection = (Player.transform.position - transform.position).normalized;

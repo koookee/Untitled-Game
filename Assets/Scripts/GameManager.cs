@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
             deathCam.enabled = true;
             mainCam.enabled = false;
             Player.gameObject.SetActive(false);
+            isGameOver = true;
         }
     }
 }

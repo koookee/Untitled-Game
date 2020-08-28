@@ -36,15 +36,15 @@ public class SpawnManagerScript : MonoBehaviour
         //Spawns enemies in this field of range
         float randomNum = Random.Range(-15, 15);
         Vector3 enemySpawnLocation = new Vector3(randomNum, 1, randomNum);
-        Instantiate(prefabs[1], enemySpawnLocation,PlayerControllerScript.transform.rotation);
+        Instantiate(prefabs[1], enemySpawnLocation,prefabs[1].transform.rotation);
     }
     private IEnumerator spawnEnemies()
     {
         //Waits 5 seconds to spawn a new enemy
         while (!GameManagerScript.isGameOver)
         {
-            yield return new WaitForSeconds(enemySpawnTimer);
             enemySpawner();
+            yield return new WaitForSeconds(enemySpawnTimer);       
         }
     }
 }
