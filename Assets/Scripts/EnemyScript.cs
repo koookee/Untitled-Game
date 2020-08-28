@@ -31,7 +31,6 @@ public class EnemyScript : MonoBehaviour
         {
             Destroy(other.gameObject);
             health--;
-            Debug.Log(health);
         }
     }
     private void moveTowardsPlayer()
