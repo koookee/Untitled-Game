@@ -675,6 +675,7 @@ MonoBehaviour:
   prefabs:
   - {fileID: 1836906665449554610, guid: de204640265dca64ca73bbf4813eea36, type: 3}
   - {fileID: 5509923731219220754, guid: eda7daf8b970fd64abc298b2fcfe7bbb, type: 3}
+  - {fileID: 1446424977042020559, guid: 4055cbaec6b8a374987d365197e2e730, type: 3}
   PlayerControllerScript: {fileID: 0}
   GameManagerScript: {fileID: 0}
 --- !u!4 &1242607958

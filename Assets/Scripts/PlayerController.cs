@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour
         {
             doubleJump = 2;
         }    
+        if(other.gameObject.CompareTag("Health Pack"))
+        {
+            health++;
+            Destroy(other.gameObject);
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {

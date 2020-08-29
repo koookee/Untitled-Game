@@ -8,12 +8,14 @@ public class SpawnManagerScript : MonoBehaviour
     public PlayerController PlayerControllerScript;
     public GameManager GameManagerScript;
     private int enemySpawnTimer = 5;
+    private int healthPackSpawnTimer = 10;
     // Start is called before the first frame update
     void Start()
     {
         PlayerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         GameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         StartCoroutine("spawnEnemies");
+        StartCoroutine("spawnHealthPacks");
     }
 
     // Update is called once per frame
@@ -34,9 +36,18 @@ public class SpawnManagerScript : MonoBehaviour
     public void enemySpawner()
     {
         //Spawns enemies in this field of range
-        float randomNum = Random.Range(-15, 15);
-        Vector3 enemySpawnLocation = new Vector3(randomNum, 1, randomNum);
+        float enemyRangeX = Random.Range(-30, 30);
+        float enemyRangeY = Random.Range(-30, 30);
+        Vector3 enemySpawnLocation = new Vector3(enemyRangeX, 1, enemyRangeY);
         Instantiate(prefabs[1], enemySpawnLocation,prefabs[1].transform.rotation);
+    }
+    public void healthSpawner()
+    {
+        //Spawns health packs
+        float healthPackRangeX = Random.Range(-40, 40);
+        float healthPackRangeY = Random.Range(-40, 40);
+        Vector3 healthPackSpawnLocation = new Vector3(healthPackRangeX, 0.63f, healthPackRangeY);
+        Instantiate(prefabs[2], healthPackSpawnLocation, prefabs[2].transform.rotation);
     }
     private IEnumerator spawnEnemies()
     {
@@ -45,6 +56,15 @@ public class SpawnManagerScript : MonoBehaviour
         {
             enemySpawner();
             yield return new WaitForSeconds(enemySpawnTimer);       
+        }
+    }
+    private IEnumerator spawnHealthPacks()
+    {
+        while (!GameManagerScript.isGameOver)
+        {
+            //Spawns health packs every 10 seconds
+            healthSpawner();
+            yield return new WaitForSeconds(healthPackSpawnTimer);
         }
     }
 }

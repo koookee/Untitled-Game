@@ -10,6 +10,7 @@ TagManager:
   - BulletPos
   - Border
   - Enemy
+  - Health Pack
   layers:
   - Default
   - TransparentFX
