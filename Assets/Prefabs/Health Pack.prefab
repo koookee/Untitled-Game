@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1839478564289619912}
   - component: {fileID: 8466806437777043611}
   - component: {fileID: 4122887798260093842}
+  - component: {fileID: 8877524613814117435}
   m_Layer: 0
   m_Name: Health Pack
   m_TagString: Health Pack
@@ -116,3 +117,16 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8877524613814117435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1446424977042020559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a6e9e951e97ce64092e5e0059765444, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeSpanDuration: 50

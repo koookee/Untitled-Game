@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public class SpawnManagerScript : MonoBehaviour
 {
@@ -22,13 +24,14 @@ public class SpawnManagerScript : MonoBehaviour
     void Update()
     {
         bulletSpawner();
+
     }
     public void bulletSpawner()
     {
         //Spawns bullets from the player's side
         if (Input.GetMouseButtonDown(0))
         {
-            //Bullets spawn at the invisible object location (BulletPos)
+            //Bullets spawn at the invisible object location attached to player(BulletPos)
             GameObject BulletPos = GameObject.FindGameObjectWithTag("BulletPos");
             Instantiate(prefabs[0], BulletPos.transform.position, PlayerControllerScript.transform.rotation);
         }
@@ -36,18 +39,18 @@ public class SpawnManagerScript : MonoBehaviour
     public void enemySpawner()
     {
         //Spawns enemies in this field of range
-        float enemyRangeX = Random.Range(-30, 30);
-        float enemyRangeY = Random.Range(-30, 30);
+        float enemyRangeX = UnityEngine.Random.Range(-30, 30);
+        float enemyRangeY = UnityEngine.Random.Range(-30, 30);
         Vector3 enemySpawnLocation = new Vector3(enemyRangeX, 1, enemyRangeY);
         Instantiate(prefabs[1], enemySpawnLocation,prefabs[1].transform.rotation);
     }
     public void healthSpawner()
     {
         //Spawns health packs
-        float healthPackRangeX = Random.Range(-40, 40);
-        float healthPackRangeY = Random.Range(-40, 40);
+        float healthPackRangeX = UnityEngine.Random.Range(-40, 40);
+        float healthPackRangeY = UnityEngine.Random.Range(-40, 40);
         Vector3 healthPackSpawnLocation = new Vector3(healthPackRangeX, 0.63f, healthPackRangeY);
-        Instantiate(prefabs[2], healthPackSpawnLocation, prefabs[2].transform.rotation);
+        Instantiate(prefabs[2], healthPackSpawnLocation, prefabs[2].transform.rotation);     
     }
     private IEnumerator spawnEnemies()
     {
@@ -67,4 +70,5 @@ public class SpawnManagerScript : MonoBehaviour
             yield return new WaitForSeconds(healthPackSpawnTimer);
         }
     }
+    
 }
