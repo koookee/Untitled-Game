@@ -5,10 +5,12 @@ using UnityEngine;
 public class EnemyScript : MonoBehaviour
 {
     public Rigidbody enemyRb;
+    public string enemyType;
     public PlayerController Player;
-    private int enemySpeed = 3;
+    public int enemySpeed = 3;
     // Start is called before the first frame update
     public int health = 4;
+    public float forceApplied = 1f;
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
@@ -16,7 +18,7 @@ public class EnemyScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (health == 0)
         {
@@ -36,12 +38,12 @@ public class EnemyScript : MonoBehaviour
     private void moveTowardsPlayer()
     {
         //Checks if the player is still alive
-        //NOT WORKING!!!!!
         if (Player.gameObject.activeSelf == true)
         {
             //Moves enemy towards player
             Vector3 playerDirection = (Player.transform.position - transform.position).normalized;
-            enemyRb.AddForce(playerDirection * enemySpeed * 0.01f, ForceMode.VelocityChange);
+            playerDirection = new Vector3(playerDirection.x, 0, playerDirection.z);
+            enemyRb.AddForce(playerDirection * enemySpeed * forceApplied *0.01f , ForceMode.VelocityChange);
         }
     }
 }

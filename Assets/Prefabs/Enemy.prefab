@@ -126,4 +126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyRb: {fileID: 0}
+  enemyType: Regular
   Player: {fileID: 0}
+  enemySpeed: 3
+  health: 4
+  forceApplied: 1

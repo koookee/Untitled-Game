@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public PlayerController Player;
     public SpawnManagerScript SpawnManager;
+    //private GameObject[] enemyArr;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,10 +21,14 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
+
     void Update()
     {
+        //Updates the player health text
         playerHealthText.text = "Health:" + " " + Player.health; 
         CheckPlayerHealth();
+        CheckEnemyHealth();
+        
     }
     private void CheckPlayerHealth()
     {
@@ -34,6 +39,22 @@ public class GameManager : MonoBehaviour
             mainCam.enabled = false;
             Player.gameObject.SetActive(false);
             isGameOver = true;
+        }
+    }
+    private void CheckEnemyHealth()
+    {
+        //Takes an array of enemies present in the world
+        GameObject[] enemyArr = GameObject.FindGameObjectsWithTag("Enemy");
+        //Loops through the array to check if one of the enemies has health == 0 (basically dead)
+        foreach (GameObject enemy in enemyArr)
+        {
+            //I can't use enemy.health since I need the enemy's script component first
+            //This is a quick method of adding the script then checking for the enemy's health
+            EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+            if (enemyScript.health == 0)
+            {
+                Destroy(enemy.gameObject);
+            }
         }
     }
 }
