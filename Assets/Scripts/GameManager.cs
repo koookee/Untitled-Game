@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private void CheckPlayerHealth()
     {
         //Checks if player's still alive
-        if (Player.health == 0)
+        if (Player.health <= 0)
         {
             deathCam.enabled = true;
             mainCam.enabled = false;

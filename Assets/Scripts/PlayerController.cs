@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 5.0f;
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
-    public EnemyScript Enemy;
     public int health = 10;
 
     // Start is called before the first frame update
@@ -27,11 +26,6 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
         MoveFunc();
         JumpFunc();
-        /*
-        if(health == 0)
-        {
-            gameObject.SetActive(false);
-        }*/
     }
 
     
@@ -51,15 +45,26 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         //Calling it from here instead of start because it's only executed once in start 
-        Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyScript>();
-        Vector3 awayDirection = (transform.position - Enemy.transform.position).normalized;
-        awayDirection = new Vector3(awayDirection.x, 1, awayDirection.z);
+        //It takes a random Enemy, though, not the one closest to the player
+        //Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyScript>();
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            playerRB.AddForce(awayDirection * 5, ForceMode.Impulse);
-            health--;
+            //This gets the script of the collider the player collides with
+            EnemyScript Enemy = collision.gameObject.GetComponent<EnemyScript>();
+            Vector3 awayDirection = (transform.position - Enemy.transform.position).normalized;
+            awayDirection = new Vector3(awayDirection.x, 1, awayDirection.z);
+            if(Enemy.enemyType == "Regular")
+            {
+                playerRB.AddForce(awayDirection * 5, ForceMode.Impulse);
+                health--;
+            }
+            if(Enemy.enemyType == "Bull")
+            {
+                playerRB.AddForce(awayDirection * 10, ForceMode.Impulse);
+                health = health - 3;
+            }
+            
         }
-
     }
 
     private void JumpFunc()
