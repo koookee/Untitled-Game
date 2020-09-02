@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
     public int health = 10;
+    private bool isShieldActive = false;
+    private bool shieldCooledDown = true;
+    public string shieldStatus = "Ready";
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +29,8 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
         MoveFunc();
         JumpFunc();
+        //First paramter controls the shield duration, second controls the cool down duration
+        ShieldActivation(10,3);
     }
 
     
@@ -47,7 +52,7 @@ public class PlayerController : MonoBehaviour
         //Calling it from here instead of start because it's only executed once in start 
         //It takes a random Enemy, though, not the one closest to the player
         //Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyScript>();
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && !isShieldActive)
         {
             //This gets the script of the collider the player collides with
             EnemyScript Enemy = collision.gameObject.GetComponent<EnemyScript>();
@@ -62,8 +67,30 @@ public class PlayerController : MonoBehaviour
             {
                 playerRB.AddForce(awayDirection * 10, ForceMode.Impulse);
                 health = health - 3;
+                //If health goes below 0. It adjusts it back so that the player health
+                //UI doesn't display negative numbers
+                if(health < 0)
+                {
+                    health = 0;
+                }
             }
             
+        }
+        //Knocks enemies back and gives player a shield
+        if (collision.gameObject.CompareTag("Enemy") && isShieldActive)
+        {
+            //This gets the script of the collider the player collides with
+            EnemyScript Enemy = collision.gameObject.GetComponent<EnemyScript>();
+            Vector3 awayDirection = (Enemy.transform.position - transform.position ).normalized;
+            awayDirection = new Vector3(awayDirection.x, 1, awayDirection.z);
+            if (Enemy.enemyType == "Regular")
+            {
+                Enemy.enemyRb.AddForce(awayDirection * 5, ForceMode.Impulse);
+            }
+            if (Enemy.enemyType == "Bull")
+            {
+                Enemy.enemyRb.AddForce(awayDirection * 6, ForceMode.Impulse);
+            }
         }
     }
 
@@ -74,6 +101,14 @@ public class PlayerController : MonoBehaviour
         {
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             doubleJump -= 1;
+        }
+    }
+    private void ShieldActivation(int shieldDuration, int shieldCoolDown)
+    {
+        //Activates shield when shield isn't cooling down & when player presses 1
+        if (Input.GetKeyDown(KeyCode.Alpha1) && shieldCooledDown)
+        {
+            StartCoroutine(ShieldTimer(shieldDuration, shieldCoolDown));
         }
     }
     private void MoveFunc()
@@ -89,6 +124,21 @@ public class PlayerController : MonoBehaviour
         //Rotates player around the Y axis
         float horizontalInput = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
+    }
+    IEnumerator ShieldTimer(int shieldDuration, int shieldCoolDown)
+    {
+        shieldCooledDown = false;
+        isShieldActive = true;
+        shieldStatus = "Active";
+        /*float displayTimer = (float) shieldDuration;
+        displayTimer -= Time.deltaTime;
+        Debug.Log(displayTimer);*/
+        yield return new WaitForSeconds(shieldDuration);
+        isShieldActive = false;
+        shieldStatus = "Cooling down";
+        yield return new WaitForSeconds(shieldCoolDown);
+        shieldCooledDown = true;
+        shieldStatus = "Ready";
     }
     
 }

@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public Camera mainCam;
     public Camera deathCam;
     public TextMeshProUGUI playerHealthText;
+    public TextMeshProUGUI playerShieldText;
     public bool isGameOver = false;
     public PlayerController Player;
     public SpawnManagerScript SpawnManager;
@@ -25,7 +26,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //Updates the player health text
-        playerHealthText.text = "Health:" + " " + Player.health; 
+        playerHealthText.text = "Health: " + Player.health;
+        playerShieldText.text = "Shield: " + Player.shieldStatus;
         CheckPlayerHealth();
         CheckEnemyHealth();
         
