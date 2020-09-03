@@ -21,7 +21,8 @@ public class PlayerController : MonoBehaviour
     private int shieldCoolDown = 3;
     public float shieldDurationTimer = 10f;
     public float coolDownTimer = 3f;
-    //Shield 
+    //Ground Smash
+    private bool isGroundSmash = false;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,9 @@ public class PlayerController : MonoBehaviour
         MoveFunc();
         JumpFunc();
         ShieldActivation(shieldDuration,shieldCoolDown);
+        GroundSmash();
+        
+        
     }
 
     
@@ -111,6 +115,7 @@ public class PlayerController : MonoBehaviour
     private void ShieldActivation(int shieldDuration, int shieldCoolDown)
     {
         //Activates shield when shield isn't cooling down & when player presses 1
+        //Shield knocks enemies back when they collide with player
         if (Input.GetKeyDown(KeyCode.Alpha1) && shieldCooledDown)
         {
             StartCoroutine(ShieldTimer(shieldDuration, shieldCoolDown));
@@ -120,6 +125,38 @@ public class PlayerController : MonoBehaviour
         }
         if (shieldStatus == "Active") shieldDurationTimer -= Time.deltaTime;
         if (shieldStatus == "Cooling down") coolDownTimer -= Time.deltaTime;
+    }
+    private void GroundSmash()
+    {
+        //When player isn't contact with the ground, they can press 2 to
+        //smash the ground knocking all enemies back
+        if (Input.GetKeyDown(KeyCode.Alpha2) && doubleJump != 2)
+        {
+            //doubleJump is another way of showing whether the player is on the ground or not
+            //doubleJump of value 2 means the player is on the ground
+            isGroundSmash = true;
+            playerRB.AddForce(Vector3.down * 20, ForceMode.Impulse);
+        }
+        if (doubleJump == 2 && isGroundSmash)
+        {
+            //Takes an array of all the enemies in the map
+            GameObject[] enemyArr = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemyArr)
+            {
+                EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
+                Vector3 awayDirection = (enemyScript.transform.position - transform.position).normalized;
+                Vector3 distanceFromPlayer = (enemyScript.transform.position - transform.position);
+                //Only knocks back the enemies that are close to the player
+                //For extra fun, get rid of the if condition :)
+                if (distanceFromPlayer.magnitude < 10f)
+                {
+                    int knockBackForce = 2;
+                    awayDirection = new Vector3(awayDirection.x * knockBackForce, 1, awayDirection.z * knockBackForce);
+                    enemyScript.enemyRb.AddForce(awayDirection * 10, ForceMode.Impulse);
+                }
+            }
+            isGroundSmash = false;
+        }
     }
     private void MoveFunc()
     {
