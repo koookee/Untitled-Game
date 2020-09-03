@@ -25,13 +25,31 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //Updates the player health text
-        playerHealthText.text = "Health: " + Player.health;
-        playerShieldText.text = "Shield: " + Player.shieldStatus;
+        displayUI();
         CheckPlayerHealth();
         CheckEnemyHealth();
         
     }
+    private void displayUI()
+    {
+        //Updates the player health text
+        playerHealthText.text = "Health: " + Player.health;
+        //Updates the player shield text
+        if (Player.shieldStatus == "Active")
+        {
+            //Added the + 1 because the timer goes from 9 to 0 instead of 10 to 1
+            int timer = (int)Player.shieldDurationTimer + 1;
+            playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer;
+        }
+        if (Player.shieldStatus == "Cooling down")
+        {
+            //Added the + 1 because the timer goes from 2 to 0 instead of 3 to 1
+            int timer = (int)Player.coolDownTimer + 1;
+            playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer; ;
+        }
+        if(Player.shieldStatus == "Ready") playerShieldText.text = "Shield: " + Player.shieldStatus;
+    }
+
     private void CheckPlayerHealth()
     {
         //Checks if player's still alive

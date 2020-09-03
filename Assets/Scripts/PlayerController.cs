@@ -13,9 +13,15 @@ public class PlayerController : MonoBehaviour
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
     public int health = 10;
+    //Shield 
     private bool isShieldActive = false;
     private bool shieldCooledDown = true;
     public string shieldStatus = "Ready";
+    private int shieldDuration = 10;
+    private int shieldCoolDown = 3;
+    public float shieldDurationTimer = 10f;
+    public float coolDownTimer = 3f;
+    //Shield 
 
     // Start is called before the first frame update
     void Start()
@@ -29,8 +35,7 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
         MoveFunc();
         JumpFunc();
-        //First paramter controls the shield duration, second controls the cool down duration
-        ShieldActivation(10,3);
+        ShieldActivation(shieldDuration,shieldCoolDown);
     }
 
     
@@ -109,7 +114,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && shieldCooledDown)
         {
             StartCoroutine(ShieldTimer(shieldDuration, shieldCoolDown));
+            //Resets timers whenever player presses 1
+            shieldDurationTimer = (float)shieldDuration;
+            coolDownTimer = (float)shieldCoolDown;
         }
+        if (shieldStatus == "Active") shieldDurationTimer -= Time.deltaTime;
+        if (shieldStatus == "Cooling down") coolDownTimer -= Time.deltaTime;
     }
     private void MoveFunc()
     {
@@ -130,9 +140,6 @@ public class PlayerController : MonoBehaviour
         shieldCooledDown = false;
         isShieldActive = true;
         shieldStatus = "Active";
-        /*float displayTimer = (float) shieldDuration;
-        displayTimer -= Time.deltaTime;
-        Debug.Log(displayTimer);*/
         yield return new WaitForSeconds(shieldDuration);
         isShieldActive = false;
         shieldStatus = "Cooling down";
