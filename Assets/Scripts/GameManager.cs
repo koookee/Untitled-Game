@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
         SpawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManagerScript>();
         mainCam.enabled = true;
         deathCam.enabled = false;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame

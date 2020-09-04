@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
     public int health = 10;
+    private ParticleSystem particles;
+    //Abilities:
     //Shield 
     private bool isShieldActive = false;
     private bool shieldCooledDown = true;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerRB = GetComponent<Rigidbody>();
+        particles = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -38,8 +41,6 @@ public class PlayerController : MonoBehaviour
         JumpFunc();
         ShieldActivation(shieldDuration,shieldCoolDown);
         GroundSmash();
-        
-        
     }
 
     
@@ -139,6 +140,7 @@ public class PlayerController : MonoBehaviour
         }
         if (doubleJump == 2 && isGroundSmash)
         {
+            particles.Play();
             //Takes an array of all the enemies in the map
             GameObject[] enemyArr = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in enemyArr)
