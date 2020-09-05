@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -25,6 +26,10 @@ public class PlayerController : MonoBehaviour
     public float coolDownTimer = 3f;
     //Ground Smash
     private bool isGroundSmash = false;
+    public float groundSmashCoolDown = 3f;
+    public float groundSmashCoolDownTimer = 3;
+    //Game starts when ability is cooling down
+    public string groundSmashStatus = "cooling down";
 
     // Start is called before the first frame update
     void Start()
@@ -131,12 +136,20 @@ public class PlayerController : MonoBehaviour
     {
         //When player isn't contact with the ground, they can press 2 to
         //smash the ground knocking all enemies back
-        if (Input.GetKeyDown(KeyCode.Alpha2) && doubleJump != 2)
-        {
+
+        //Manages cooldown timer
+        groundSmashCoolDown -= Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.Alpha2) && doubleJump != 2 && groundSmashCoolDown <= 0)
+        { 
             //doubleJump is another way of showing whether the player is on the ground or not
             //doubleJump of value 2 means the player is on the ground
             isGroundSmash = true;
             playerRB.AddForce(Vector3.down * 20, ForceMode.Impulse);
+            //Resets timer
+            groundSmashCoolDown = groundSmashCoolDownTimer;
+            //Changes status but it's not displayed
+            groundSmashStatus = "cooling down";
+
         }
         if (doubleJump == 2 && isGroundSmash)
         {
@@ -158,6 +171,10 @@ public class PlayerController : MonoBehaviour
                 }
             }
             isGroundSmash = false;
+        }
+        if(groundSmashCoolDown <= 0)
+        {
+            groundSmashStatus = "Ready";
         }
     }
     private void MoveFunc()

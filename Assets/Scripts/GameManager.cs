@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public Camera deathCam;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerShieldText;
+    public TextMeshProUGUI playerGroundShatterText;
     public bool isGameOver = false;
     public PlayerController Player;
     public SpawnManagerScript SpawnManager;
@@ -49,6 +50,15 @@ public class GameManager : MonoBehaviour
             playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer; ;
         }
         if(Player.shieldStatus == "Ready") playerShieldText.text = "Shield: " + Player.shieldStatus;
+        if (Player.groundSmashStatus != "Ready")
+        {
+            int timer = (int)Player.groundSmashCoolDown + 1;
+            playerGroundShatterText.text = "Ground shatter:" + timer;
+        }
+        else
+        {
+            playerGroundShatterText.text = "Ground shatter: Ready";
+        }
     }
 
     private void CheckPlayerHealth()
