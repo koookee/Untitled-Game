@@ -51,12 +51,7 @@ public class PlayerController : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        //Checks to see if player is on the ground to reset doubleJump to 2
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            doubleJump = 2;
-        }    
-        if(other.gameObject.CompareTag("Health Pack"))
+        if (other.gameObject.CompareTag("Health Pack"))
         {
             health++;
             Destroy(other.gameObject);
@@ -64,6 +59,12 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        //Checks to see if player is on the ground to reset doubleJump to 2
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            doubleJump = 2;
+        }
+        
         //Calling it from here instead of start because it's only executed once in start 
         //It takes a random Enemy, though, not the one closest to the player
         //Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyScript>();

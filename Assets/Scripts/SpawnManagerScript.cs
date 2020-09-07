@@ -35,7 +35,7 @@ public class SpawnManagerScript : MonoBehaviour
         {
             //Bullets spawn at the invisible object location attached to player(BulletPos)
             GameObject BulletPos = GameObject.FindGameObjectWithTag("BulletPos");
-            Instantiate(prefabs[0], BulletPos.transform.position, PlayerControllerScript.transform.rotation);
+            Instantiate(prefabs[0], BulletPos.transform.position, BulletPos.transform.rotation);
         }
     }
     public void enemySpawner(int x)
