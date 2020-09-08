@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
     private int rotateSpeed = 9 * 100;
     public int health = 10;
     private ParticleSystem particles;
+    private Renderer Mesh;
+    private Color shieldColor = new Color(0.050f, 0.342f, 1.108f, 1.000f);
+    private Color whiteColor =new Color(1,1,1,1);
+    private Color coolingDownColor = new Color(0.755f, 0.224f, 0.082f, 1.000f); 
     //Abilities:
     //Shield 
     private bool isShieldActive = false;
@@ -31,11 +35,16 @@ public class PlayerController : MonoBehaviour
     //Game starts when ability is cooling down
     public string groundSmashStatus = "cooling down";
 
+
     // Start is called before the first frame update
     void Start()
     {
+        Mesh = GetComponent<Renderer>();
         playerRB = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();
+        //Used it to check color RGB values at the start of the game
+        //Color color = Mesh.material.GetColor("_Color");
+        //Debug.Log(color);
     }
 
     // Update is called once per frame
@@ -197,10 +206,14 @@ public class PlayerController : MonoBehaviour
         shieldCooledDown = false;
         isShieldActive = true;
         shieldStatus = "Active";
+        //Changes mesh color
+        Mesh.material.SetColor("_Color", shieldColor);
         yield return new WaitForSeconds(shieldDuration);
+        Mesh.material.SetColor("_Color", coolingDownColor);
         isShieldActive = false;
         shieldStatus = "Cooling down";
         yield return new WaitForSeconds(shieldCoolDown);
+        Mesh.material.SetColor("_Color", whiteColor);
         shieldCooledDown = true;
         shieldStatus = "Ready";
     }
