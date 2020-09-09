@@ -31,7 +31,9 @@ public class EnemyScript : MonoBehaviour
         //When bullet collides with enemy
         if (other.gameObject.CompareTag("Bullet"))
         {
-            Destroy(other.gameObject);
+            ParticleSystem bulletParticles = other.gameObject.GetComponent<ParticleSystem>();
+            bulletParticles.Play();
+            //Destroy(other.gameObject);
             health--;
         }
     }
