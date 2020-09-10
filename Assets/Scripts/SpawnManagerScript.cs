@@ -26,7 +26,6 @@ public class SpawnManagerScript : MonoBehaviour
     void Update()
     {
         bulletSpawner();
-
     }
     public void bulletSpawner()
     {
@@ -36,6 +35,8 @@ public class SpawnManagerScript : MonoBehaviour
             //Bullets spawn at the invisible object location attached to player(BulletPos)
             GameObject BulletPos = GameObject.FindGameObjectWithTag("BulletPos");
             Instantiate(prefabs[0], BulletPos.transform.position, BulletPos.transform.rotation);
+            //Plays the shooting sound effect
+            PlayerControllerScript.AudioClips[0].Play();
         }
     }
     public void enemySpawner(int x)

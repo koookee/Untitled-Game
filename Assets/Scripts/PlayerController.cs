@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
     public int health = 10;
+    public AudioSource[] AudioClips;
     private ParticleSystem particles;
     private Renderer Mesh;
     private Color shieldColor = new Color(0.050f, 0.342f, 1.108f, 1.000f);
@@ -62,6 +63,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Health Pack"))
         {
+            //Plays the heal sound effect
+            AudioClips[1].Play();
             health++;
             Destroy(other.gameObject);
         }
@@ -83,6 +86,7 @@ public class PlayerController : MonoBehaviour
             EnemyScript Enemy = collision.gameObject.GetComponent<EnemyScript>();
             Vector3 awayDirection = (transform.position - Enemy.transform.position).normalized;
             awayDirection = new Vector3(awayDirection.x, 1, awayDirection.z);
+            AudioClips[4].Play();
             if(Enemy.enemyType == "Regular")
             {
                 playerRB.AddForce(awayDirection * 5, ForceMode.Impulse);
@@ -108,6 +112,7 @@ public class PlayerController : MonoBehaviour
             EnemyScript Enemy = collision.gameObject.GetComponent<EnemyScript>();
             Vector3 awayDirection = (Enemy.transform.position - transform.position ).normalized;
             awayDirection = new Vector3(awayDirection.x, 1, awayDirection.z);
+            AudioClips[4].Play();
             if (Enemy.enemyType == "Regular")
             {
                 Enemy.enemyRb.AddForce(awayDirection * 5, ForceMode.Impulse);
@@ -134,6 +139,7 @@ public class PlayerController : MonoBehaviour
         //Shield knocks enemies back when they collide with player
         if (Input.GetKeyDown(KeyCode.Alpha1) && shieldCooledDown)
         {
+            AudioClips[3].Play();
             StartCoroutine(ShieldTimer(shieldDuration, shieldCoolDown));
             //Resets timers whenever player presses 1
             shieldDurationTimer = (float)shieldDuration;
@@ -163,6 +169,7 @@ public class PlayerController : MonoBehaviour
         }
         if (doubleJump == 2 && isGroundSmash)
         {
+            AudioClips[2].Play();
             particles.Play();
             //Takes an array of all the enemies in the map
             GameObject[] enemyArr = GameObject.FindGameObjectsWithTag("Enemy");
