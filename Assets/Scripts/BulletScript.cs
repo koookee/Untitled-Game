@@ -26,7 +26,7 @@ public class BulletScript : MonoBehaviour
         lastPosition = transform.position;
         if (distanceTraveled > maxDistance)
         {
-            Debug.Log(distanceTraveled);
+            //Debug.Log(distanceTraveled);
             Destroy(gameObject);
         }
     }

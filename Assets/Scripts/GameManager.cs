@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
         mainCam.enabled = true;
         deathCam.enabled = false;
         Cursor.visible = false;
+        //Keeps the mouse in the playmode area
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
