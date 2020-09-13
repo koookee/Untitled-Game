@@ -19,7 +19,9 @@ public class PlayerController : MonoBehaviour
     private Renderer Mesh;
     private Color shieldColor = new Color(0.050f, 0.342f, 1.108f, 1.000f);
     private Color whiteColor =new Color(1,1,1,1);
-    private Color coolingDownColor = new Color(0.755f, 0.224f, 0.082f, 1.000f); 
+    private Color coolingDownColor = new Color(0.755f, 0.224f, 0.082f, 1.000f);
+    public string[] weaponArr = new string[] {"Gun","Rocket Launcher"};
+    public string weaponSelected = "";
     //Abilities:
     //Shield 
     private bool isShieldActive = false;
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        weaponSelected = weaponArr[1];
         Mesh = GetComponent<Renderer>();
         playerRB = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();

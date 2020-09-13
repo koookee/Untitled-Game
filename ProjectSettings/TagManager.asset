@@ -11,6 +11,7 @@ TagManager:
   - Border
   - Enemy
   - Health Pack
+  - Rocket
   layers:
   - Default
   - TransparentFX
