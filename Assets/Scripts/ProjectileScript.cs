@@ -34,7 +34,7 @@ public class ProjectileScript : MonoBehaviour
     {
         if (gameObject.tag == "Rocket")
         {
-            Debug.Log("Test");
+            Debug.Log("test");
             GameObject[] enemyArr = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject enemy in enemyArr)
             {
@@ -48,10 +48,10 @@ public class ProjectileScript : MonoBehaviour
                     int knockBackForce = 2;
                     awayDirection = new Vector3(awayDirection.x * knockBackForce, 1, awayDirection.z * knockBackForce);
                     enemyScript.enemyRb.AddForce(awayDirection * 10, ForceMode.Impulse);
-                    enemyScript.health-=3;
                 }
             }
-            Destroy(gameObject);
+           Destroy(gameObject);
         }
     }
 }
+    

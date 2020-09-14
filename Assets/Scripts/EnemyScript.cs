@@ -29,12 +29,13 @@ public class EnemyScript : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //When bullet collides with enemy
-        if (other.gameObject.CompareTag("Bullet"))
+        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("Rocket"))
         {
             ParticleSystem bulletParticles = other.gameObject.GetComponent<ParticleSystem>();
             bulletParticles.Play();
             //Destroy(other.gameObject);
-            health--;
+            if (other.gameObject.CompareTag("Bullet")) health--;
+            if (other.gameObject.CompareTag("Rocket")) health -= 3;
         }
     }
     private void moveTowardsPlayer()
