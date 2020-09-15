@@ -35,7 +35,7 @@ public class EnemyScript : MonoBehaviour
             bulletParticles.Play();
             //Destroy(other.gameObject);
             if (other.gameObject.CompareTag("Bullet")) health--;
-            if (other.gameObject.CompareTag("Rocket")) health -= 3;
+            //Health reduction from rockets is in the projectile script
         }
     }
     private void moveTowardsPlayer()

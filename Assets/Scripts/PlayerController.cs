@@ -20,8 +20,11 @@ public class PlayerController : MonoBehaviour
     private Color shieldColor = new Color(0.050f, 0.342f, 1.108f, 1.000f);
     private Color whiteColor =new Color(1,1,1,1);
     private Color coolingDownColor = new Color(0.755f, 0.224f, 0.082f, 1.000f);
+    //Weapon Arr
     public string[] weaponArr = new string[] {"Gun","Rocket Launcher"};
     public string weaponSelected = "";
+    //Weapon num is basically just the weapon array index
+    private int weaponNum = 0;
     //Abilities:
     //Shield 
     private bool isShieldActive = false;
@@ -35,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private bool isGroundSmash = false;
     public float groundSmashCoolDown = 3f;
     public float groundSmashCoolDownTimer = 3;
+    private bool playerInvincible = false;
     //Game starts when ability is cooling down
     public string groundSmashStatus = "cooling down";
 
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        weaponSelected = weaponArr[1];
+        weaponSelected = weaponArr[weaponNum];
         Mesh = GetComponent<Renderer>();
         playerRB = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();
@@ -59,6 +63,18 @@ public class PlayerController : MonoBehaviour
         JumpFunc();
         ShieldActivation(shieldDuration,shieldCoolDown);
         GroundSmash();
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponNum < weaponArr.Length - 1)
+        {
+            weaponNum++;
+            weaponSelected = weaponArr[weaponNum];
+            Debug.Log(weaponSelected);
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
+        {
+            weaponNum--;
+            weaponSelected = weaponArr[weaponNum];
+            Debug.Log(weaponSelected);
+        }
     }
 
     
@@ -83,7 +99,7 @@ public class PlayerController : MonoBehaviour
         //Calling it from here instead of start because it's only executed once in start 
         //It takes a random Enemy, though, not the one closest to the player
         //Enemy = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyScript>();
-        if (collision.gameObject.CompareTag("Enemy") && !isShieldActive)
+        if (collision.gameObject.CompareTag("Enemy") && !isShieldActive && !playerInvincible)
         {
             //This gets the script of the collider the player collides with
             EnemyScript Enemy = collision.gameObject.GetComponent<EnemyScript>();
@@ -163,6 +179,8 @@ public class PlayerController : MonoBehaviour
             //doubleJump is another way of showing whether the player is on the ground or not
             //doubleJump of value 2 means the player is on the ground
             isGroundSmash = true;
+            //Prevents enemies from knocking back player while he's diving down 
+            playerInvincible = true;
             playerRB.AddForce(Vector3.down * 20, ForceMode.Impulse);
             //Resets timer
             groundSmashCoolDown = groundSmashCoolDownTimer;
@@ -191,6 +209,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
             isGroundSmash = false;
+            playerInvincible = false;
         }
         if(groundSmashCoolDown <= 0)
         {
