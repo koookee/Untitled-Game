@@ -63,18 +63,7 @@ public class PlayerController : MonoBehaviour
         JumpFunc();
         ShieldActivation(shieldDuration,shieldCoolDown);
         GroundSmash();
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponNum < weaponArr.Length - 1)
-        {
-            weaponNum++;
-            weaponSelected = weaponArr[weaponNum];
-            Debug.Log(weaponSelected);
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
-        {
-            weaponNum--;
-            weaponSelected = weaponArr[weaponNum];
-            Debug.Log(weaponSelected);
-        }
+        WeaponSelector();
     }
 
     
@@ -229,6 +218,19 @@ public class PlayerController : MonoBehaviour
         //Rotates player around the Y axis
         float horizontalInput = Input.GetAxis("Mouse X");
         transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
+    }
+    private void WeaponSelector()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponNum < weaponArr.Length - 1)
+        {
+            weaponNum++;
+            weaponSelected = weaponArr[weaponNum];
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
+        {
+            weaponNum--;
+            weaponSelected = weaponArr[weaponNum];
+        }
     }
     IEnumerator ShieldTimer(int shieldDuration, int shieldCoolDown)
     {

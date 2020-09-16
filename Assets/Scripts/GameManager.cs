@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UIElements;
+
 public class GameManager : MonoBehaviour
 {
     public Camera mainCam;
@@ -9,6 +11,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerShieldText;
     public TextMeshProUGUI playerGroundShatterText;
+    //Using Image instead of GameObject doesn't make it show up in the GameManager
+    //game object like TextMeshProUGUI does
+    public GameObject rayGunImage;
+    public GameObject rocketLauncherImage;
     public bool isGameOver = false;
     public PlayerController Player;
     public SpawnManagerScript SpawnManager;
@@ -20,9 +26,11 @@ public class GameManager : MonoBehaviour
         SpawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManagerScript>();
         mainCam.enabled = true;
         deathCam.enabled = false;
-        Cursor.visible = false;
+        //Cursor.visible also works but I'm getting an ambiguous error between UnityEngine
+        //and UnityEngine.UI
+        UnityEngine.Cursor.visible = false;
         //Keeps the mouse in the playmode area
-        Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
@@ -60,6 +68,16 @@ public class GameManager : MonoBehaviour
         else
         {
             playerGroundShatterText.text = "Ground shatter: Ready";
+        }
+        if(Player.weaponSelected == "Gun")
+        {
+            rayGunImage.SetActive(true);
+            rocketLauncherImage.SetActive(false);
+        }
+        if (Player.weaponSelected == "Rocket Launcher")
+        {
+            rocketLauncherImage.SetActive(true);
+            rayGunImage.SetActive(false);
         }
     }
 
