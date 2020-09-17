@@ -9,17 +9,20 @@ public class SpawnManagerScript : MonoBehaviour
     public GameObject[] prefabs;
     public PlayerController PlayerControllerScript;
     public GameManager GameManagerScript;
-    private int enemySpawnTimer = 5;
-    private int enemySpawnTimer1 = 30;
     private int healthPackSpawnTimer = 10;
+    //Rounds:
+    public int roundCounter = 1;
+    public Round1 round1;
+
     // Start is called before the first frame update
     void Start()
     {
         PlayerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         GameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-        StartCoroutine("spawnEnemies");
-        StartCoroutine("spawnEnemies1");
         StartCoroutine("spawnHealthPacks");
+        //Gets the component reference of all the round scripts
+        GetRoundComponents();
+        round1.enabled = true;
     }
 
     // Update is called once per frame
@@ -46,14 +49,18 @@ public class SpawnManagerScript : MonoBehaviour
             }
         }
     }
-    public void enemySpawner(int x)
+    public void enemySpawner(int enemyType, int amount)
     {
         //x determines what enemy to spawn
         //Spawns enemies in this field of range
-        float enemyRangeX = UnityEngine.Random.Range(-30, 30);
-        float enemyRangeY = UnityEngine.Random.Range(-30, 30);
-        Vector3 enemySpawnLocation = new Vector3(enemyRangeX, 1, enemyRangeY);
-        Instantiate(prefabs[x], enemySpawnLocation,prefabs[x].transform.rotation);
+        for (int i = 0; i < amount; i++)
+        {
+            //Spawns an int amount of enemy prefabs 
+            float enemyRangeX = UnityEngine.Random.Range(-30, 30);
+            float enemyRangeY = UnityEngine.Random.Range(-30, 30);
+            Vector3 enemySpawnLocation = new Vector3(enemyRangeX, 1, enemyRangeY);
+            Instantiate(prefabs[enemyType], enemySpawnLocation, prefabs[enemyType].transform.rotation);
+        }
     }
     public void healthSpawner()
     {
@@ -63,6 +70,22 @@ public class SpawnManagerScript : MonoBehaviour
         Vector3 healthPackSpawnLocation = new Vector3(healthPackRangeX, 0.63f, healthPackRangeY);
         Instantiate(prefabs[2], healthPackSpawnLocation, prefabs[2].transform.rotation);     
     }
+    private IEnumerator spawnHealthPacks()
+    {
+        while (!GameManagerScript.isGameOver)
+        {
+            //Spawns health packs every 10 seconds
+            healthSpawner();
+            yield return new WaitForSeconds(healthPackSpawnTimer);
+        }
+    }
+    private void GetRoundComponents()
+    {
+        round1 = GetComponent<Round1>();
+    }
+
+    //Switched to a round approach
+    /*
     private IEnumerator spawnEnemies()
     {
         //Waits 5 seconds to spawn a new enemy
@@ -81,14 +104,5 @@ public class SpawnManagerScript : MonoBehaviour
             yield return new WaitForSeconds(enemySpawnTimer1);
         }
     }
-    private IEnumerator spawnHealthPacks()
-    {
-        while (!GameManagerScript.isGameOver)
-        {
-            //Spawns health packs every 10 seconds
-            healthSpawner();
-            yield return new WaitForSeconds(healthPackSpawnTimer);
-        }
-    }
-    
+    */
 }
