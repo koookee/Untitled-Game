@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 5.0f;
     private int doubleJump = 2;
     private int rotateSpeed = 9 * 100;
+    private bool isOnGround;
     public int health = 10;
     public AudioSource[] AudioClips;
     private ParticleSystem particles;
@@ -82,6 +83,7 @@ public class PlayerController : MonoBehaviour
         //Checks to see if player is on the ground to reset doubleJump to 2
         if (collision.gameObject.CompareTag("Ground"))
         {
+            isOnGround = true;
             doubleJump = 2;
         }
         
@@ -113,6 +115,7 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
         //Knocks enemies back and gives player a shield
         if (collision.gameObject.CompareTag("Enemy") && isShieldActive)
         {
@@ -130,6 +133,10 @@ public class PlayerController : MonoBehaviour
                 Enemy.enemyRb.AddForce(awayDirection * 6, ForceMode.Impulse);
             }
         }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground") isOnGround = false;
     }
 
     private void JumpFunc()
@@ -163,7 +170,7 @@ public class PlayerController : MonoBehaviour
 
         //Manages cooldown timer
         groundSmashCoolDown -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Alpha2) && doubleJump != 2 && groundSmashCoolDown <= 0)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !isOnGround && groundSmashCoolDown <= 0)
         { 
             //doubleJump is another way of showing whether the player is on the ground or not
             //doubleJump of value 2 means the player is on the ground

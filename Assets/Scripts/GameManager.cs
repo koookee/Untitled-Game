@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerShieldText;
     public TextMeshProUGUI playerGroundShatterText;
+    public TextMeshProUGUI roundNum;
     //Using Image instead of GameObject doesn't make it show up in the GameManager
     //game object like TextMeshProUGUI does
     public GameObject rayGunImage;
@@ -44,41 +45,9 @@ public class GameManager : MonoBehaviour
     }
     private void displayUI()
     {
-        //Updates the player health text
-        playerHealthText.text = "Health: " + Player.health;
-        //Updates the player shield text
-        if (Player.shieldStatus == "Active")
-        {
-            //Added the + 1 because the timer goes from 9 to 0 instead of 10 to 1
-            int timer = (int)Player.shieldDurationTimer + 1;
-            playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer;
-        }
-        if (Player.shieldStatus == "Cooling down")
-        {
-            //Added the + 1 because the timer goes from 2 to 0 instead of 3 to 1
-            int timer = (int)Player.coolDownTimer + 1;
-            playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer; ;
-        }
-        if(Player.shieldStatus == "Ready") playerShieldText.text = "Shield: " + Player.shieldStatus;
-        if (Player.groundSmashStatus != "Ready")
-        {
-            int timer = (int)Player.groundSmashCoolDown + 1;
-            playerGroundShatterText.text = "Ground shatter:" + timer;
-        }
-        else
-        {
-            playerGroundShatterText.text = "Ground shatter: Ready";
-        }
-        if(Player.weaponSelected == "Gun")
-        {
-            rayGunImage.SetActive(true);
-            rocketLauncherImage.SetActive(false);
-        }
-        if (Player.weaponSelected == "Rocket Launcher")
-        {
-            rocketLauncherImage.SetActive(true);
-            rayGunImage.SetActive(false);
-        }
+        abilitiesUI();
+        weaponUI();
+        roundUI();
     }
 
     private void CheckPlayerHealth()
@@ -108,4 +77,50 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    private void abilitiesUI()
+    {
+        //Updates the player health text
+        playerHealthText.text = "Health: " + Player.health;
+        //Updates the player shield text
+        if (Player.shieldStatus == "Active")
+        {
+            //Added the + 1 because the timer goes from 9 to 0 instead of 10 to 1
+            int timer = (int)Player.shieldDurationTimer + 1;
+            playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer;
+        }
+        if (Player.shieldStatus == "Cooling down")
+        {
+            //Added the + 1 because the timer goes from 2 to 0 instead of 3 to 1
+            int timer = (int)Player.coolDownTimer + 1;
+            playerShieldText.text = "Shield: " + Player.shieldStatus + ", " + timer; ;
+        }
+        if (Player.shieldStatus == "Ready") playerShieldText.text = "Shield: " + Player.shieldStatus;
+        if (Player.groundSmashStatus != "Ready")
+        {
+            int timer = (int)Player.groundSmashCoolDown + 1;
+            playerGroundShatterText.text = "Ground shatter:" + timer;
+        }
+        else
+        {
+            playerGroundShatterText.text = "Ground shatter: Ready";
+        }
+    }
+    private void weaponUI()
+    {
+        if (Player.weaponSelected == "Gun")
+        {
+            rayGunImage.SetActive(true);
+            rocketLauncherImage.SetActive(false);
+        }
+        if (Player.weaponSelected == "Rocket Launcher")
+        {
+            rocketLauncherImage.SetActive(true);
+            rayGunImage.SetActive(false);
+        }
+    }
+    private void roundUI()
+    {
+        roundNum.text = "Round: " + SpawnManager.roundCounter;
+    }
 }
+

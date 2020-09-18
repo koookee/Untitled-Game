@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Round1 : MonoBehaviour
+public class Round2 : MonoBehaviour
 {
     private SpawnManagerScript SpawnManager;
     private bool allEnemiesSpawned = false;
     public int roundNum;
-    private Round2 nextRound;
+    private Round3 nextRound;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +26,7 @@ public class Round1 : MonoBehaviour
             //Stops the if condition from being executed if the roundCounter gets incremented
             if (enemyArr.Length == 0 && roundNum == SpawnManager.roundCounter)
             {
-                nextRound = GetComponent<Round2>();
+                nextRound = GetComponent<Round3>();
                 SpawnManager.roundCounter++;
                 nextRound.enabled = true;
                 //Script turns itself off after its purpose is complete
@@ -40,14 +40,13 @@ public class Round1 : MonoBehaviour
         int enemy = 1;
         //enemy1 isn't needed for this round
         //int enemy1 = 3;
-        SpawnManager.enemySpawner(enemy, 1);
+        SpawnManager.enemySpawner(enemy, 2);
         yield return new WaitForSeconds(5);
-        SpawnManager.enemySpawner(enemy, 2);
+        SpawnManager.enemySpawner(enemy, 4);
         yield return new WaitForSeconds(7);
-        SpawnManager.enemySpawner(enemy, 2);
+        SpawnManager.enemySpawner(enemy, 4);
         yield return new WaitForSeconds(10);
-        SpawnManager.enemySpawner(enemy, 3);
+        SpawnManager.enemySpawner(enemy, 6);
         allEnemiesSpawned = true;
     }
-    
 }

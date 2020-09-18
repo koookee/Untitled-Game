@@ -37,6 +37,10 @@ public class EnemyScript : MonoBehaviour
             if (other.gameObject.CompareTag("Bullet")) health--;
             //Health reduction from rockets is in the projectile script
         }
+        if (other.gameObject.CompareTag("Border"))
+        {
+            Destroy(gameObject);
+        }
     }
     private void moveTowardsPlayer()
     {

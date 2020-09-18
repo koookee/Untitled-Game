@@ -12,7 +12,6 @@ public class SpawnManagerScript : MonoBehaviour
     private int healthPackSpawnTimer = 10;
     //Rounds:
     public int roundCounter = 1;
-    public Round1 round1;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +19,6 @@ public class SpawnManagerScript : MonoBehaviour
         PlayerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         GameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         StartCoroutine("spawnHealthPacks");
-        //Gets the component reference of all the round scripts
-        GetRoundComponents();
-        round1.enabled = true;
     }
 
     // Update is called once per frame
@@ -57,8 +53,8 @@ public class SpawnManagerScript : MonoBehaviour
         {
             //Spawns an int amount of enemy prefabs 
             float enemyRangeX = UnityEngine.Random.Range(-30, 30);
-            float enemyRangeY = UnityEngine.Random.Range(-30, 30);
-            Vector3 enemySpawnLocation = new Vector3(enemyRangeX, 1, enemyRangeY);
+            float enemyRangeZ = UnityEngine.Random.Range(-30, 30);
+            Vector3 enemySpawnLocation = new Vector3(enemyRangeX, 2, enemyRangeZ);
             Instantiate(prefabs[enemyType], enemySpawnLocation, prefabs[enemyType].transform.rotation);
         }
     }
@@ -78,10 +74,6 @@ public class SpawnManagerScript : MonoBehaviour
             healthSpawner();
             yield return new WaitForSeconds(healthPackSpawnTimer);
         }
-    }
-    private void GetRoundComponents()
-    {
-        round1 = GetComponent<Round1>();
     }
 
     //Switched to a round approach
