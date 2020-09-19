@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerShieldText;
     public TextMeshProUGUI playerGroundShatterText;
     public TextMeshProUGUI roundNum;
+    public TextMeshProUGUI doubleJumpStatus;
     //Using Image instead of GameObject doesn't make it show up in the GameManager
     //game object like TextMeshProUGUI does
     public GameObject rayGunImage;
@@ -120,7 +121,22 @@ public class GameManager : MonoBehaviour
     }
     private void roundUI()
     {
+        //Displays round info, pop up messages, and anything to do with the 
+        //changing state of the game
         roundNum.text = "Round: " + SpawnManager.roundCounter;
+        if (doubleJumpStatus.gameObject.activeSelf == true) StartCoroutine(Timer(4,1));
+    }
+    IEnumerator Timer(int time, int section)
+    {
+        //Manages different commands in one coroutine split up into sections 
+        //If you want to execute a few lines of code for a few seconds,
+        //add a new section and pass that parameter.
+        //This is more organized than having multiple IEnumerator functions
+        if (section == 1)
+        {
+            yield return new WaitForSeconds(time);
+            doubleJumpStatus.gameObject.SetActive(false);
+        }
     }
 }
 

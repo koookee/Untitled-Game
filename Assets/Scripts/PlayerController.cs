@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRB;
     private float playerSpeed = 2.0f;
     private float jumpForce = 5.0f;
-    private int doubleJump = 2;
+    public int numOfJumps = 1;
+    private int jumpsLeft;
     private int rotateSpeed = 9 * 100;
     private bool isOnGround;
     public int health = 10;
@@ -84,7 +85,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
-            doubleJump = 2;
+            jumpsLeft = numOfJumps;
         }
         
         //Calling it from here instead of start because it's only executed once in start 
@@ -142,10 +143,10 @@ public class PlayerController : MonoBehaviour
     private void JumpFunc()
     {
         //Takes the input to make the player jump
-        if (Input.GetKeyDown(KeyCode.Space) && doubleJump > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsLeft > 0)
         {
             playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            doubleJump -= 1;
+            jumpsLeft -= 1;
         }
     }
     private void ShieldActivation(int shieldDuration, int shieldCoolDown)
@@ -184,7 +185,7 @@ public class PlayerController : MonoBehaviour
             groundSmashStatus = "cooling down";
 
         }
-        if (doubleJump == 2 && isGroundSmash)
+        if (isOnGround && isGroundSmash)
         {
             AudioClips[2].Play();
             particles.Play();

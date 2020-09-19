@@ -5,9 +5,11 @@ using UnityEngine;
 public class Round3 : MonoBehaviour
 {
     private SpawnManagerScript SpawnManager;
+    public int timeBeforeRoundStarts = 5;
     private bool allEnemiesSpawned = false;
     public int roundNum;
-    private Round3 nextRound;
+    //If copying script, only change RoundX below and in update function
+    private Round4 nextRound;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class Round3 : MonoBehaviour
             //Stops the if condition from being executed if the roundCounter gets incremented
             if (enemyArr.Length == 0 && roundNum == SpawnManager.roundCounter)
             {
-                nextRound = GetComponent<Round3>();
+                nextRound = GetComponent<Round4>();
                 SpawnManager.roundCounter++;
                 nextRound.enabled = true;
                 //Script turns itself off after its purpose is complete
@@ -36,6 +38,7 @@ public class Round3 : MonoBehaviour
     }
     private IEnumerator Spawner()
     {
+        yield return new WaitForSeconds(timeBeforeRoundStarts);
         //1 is regular enemy / 3 is enemy1 in prefabs for spawn manager
         int enemy = 1;
         int enemy1 = 3;

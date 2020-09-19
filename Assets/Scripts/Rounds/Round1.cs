@@ -5,8 +5,10 @@ using UnityEngine;
 public class Round1 : MonoBehaviour
 {
     private SpawnManagerScript SpawnManager;
+    public int timeBeforeRoundStarts = 5;
     private bool allEnemiesSpawned = false;
     public int roundNum;
+    //If copying script, only change RoundX below and in update function
     private Round2 nextRound;
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,7 @@ public class Round1 : MonoBehaviour
     }
     private IEnumerator Spawner()
     {
+        yield return new WaitForSeconds(timeBeforeRoundStarts);
         //1 is regular enemy / 3 is enemy1 in prefabs for spawn manager
         int enemy = 1;
         //enemy1 isn't needed for this round
