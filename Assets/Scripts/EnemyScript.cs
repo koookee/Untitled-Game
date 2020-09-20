@@ -11,6 +11,8 @@ public class EnemyScript : MonoBehaviour
     // Start is called before the first frame update
     public int health = 4;
     public float forceApplied = 1f;
+    private bool inProximityOfPlayer;
+    private float proximityDistance = 10f;
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
@@ -24,7 +26,7 @@ public class EnemyScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        moveTowardsPlayer();
+        moveTowardsPlayerParent();
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -35,6 +37,7 @@ public class EnemyScript : MonoBehaviour
             bulletParticles.Play();
             //Destroy(other.gameObject);
             if (other.gameObject.CompareTag("Bullet")) health--;
+            Debug.Log(health);
             //Health reduction from rockets is in the projectile script
         }
         if (other.gameObject.CompareTag("Border"))
@@ -51,6 +54,25 @@ public class EnemyScript : MonoBehaviour
             Vector3 playerDirection = (Player.transform.position - transform.position).normalized;
             playerDirection = new Vector3(playerDirection.x, 0, playerDirection.z);
             enemyRb.AddForce(playerDirection * enemySpeed * forceApplied *0.01f , ForceMode.VelocityChange);
+        }
+    }
+    private void moveTowardsPlayerParent()
+    {
+        //Parent function of moveTowardsPlayer
+        if(enemyType=="Regular" || enemyType=="Bull") moveTowardsPlayer();
+
+        //If archer is in the proximity of the player, it should stop moving
+        if (enemyType == "Archer")
+        {
+            //Calculates distance from archer to player
+            Vector3 distanceToPlayer = (Player.transform.position - transform.position);
+            if (distanceToPlayer.magnitude < proximityDistance)
+            {
+                inProximityOfPlayer = true;
+                enemyRb.velocity = new Vector3(0, 0, 0);
+            }
+            else inProximityOfPlayer = false;
+            if (!inProximityOfPlayer) moveTowardsPlayer();
         }
     }
 }
