@@ -10,6 +10,7 @@ public class SpawnManagerScript : MonoBehaviour
     public PlayerController PlayerControllerScript;
     public GameManager GameManagerScript;
     private int healthPackSpawnTimer = 10;
+    GameObject BulletPos;
     //Rounds:
     public int roundCounter = 1;
 
@@ -18,31 +19,41 @@ public class SpawnManagerScript : MonoBehaviour
     {
         PlayerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
         GameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
+        BulletPos = GameObject.FindGameObjectWithTag("BulletPos");
         StartCoroutine("spawnHealthPacks");
     }
 
     // Update is called once per frame
     void Update()
     {
-        bulletSpawner();
+        bulletSpawner(BulletPos.transform, true);
     }
-    public void bulletSpawner()
+    public void bulletSpawner(Transform transform, bool isThisFromPlayer)
     {
-        //Spawns bullets from the player's side
-        if (Input.GetMouseButtonDown(0))
+        //Transform transform has all the information about the game object's
+        //position, rotation, etc.
+        //isThisFromPlayer checks to see if it's bullets spawned by player or enemy archer
+        if (isThisFromPlayer)
         {
-            //Bullets spawn at the invisible object location attached to player(BulletPos)
-            GameObject BulletPos = GameObject.FindGameObjectWithTag("BulletPos");
-            if (PlayerControllerScript.weaponSelected == "Gun")
+            //Spawns bullets from the player's side
+            if (Input.GetMouseButtonDown(0))
             {
-                Instantiate(prefabs[0], BulletPos.transform.position, BulletPos.transform.rotation);
-                //Plays the shooting sound effect
-                PlayerControllerScript.AudioClips[0].Play();
+                //Bullets spawn at the invisible object location attached to player (BulletPos)
+                if (PlayerControllerScript.weaponSelected == "Gun")
+                {
+                    Instantiate(prefabs[0], transform.position, transform.rotation);
+                    //Plays the shooting sound effect
+                    PlayerControllerScript.AudioClips[0].Play();
+                }
+                if (PlayerControllerScript.weaponSelected == "Rocket Launcher")
+                {
+                    Instantiate(prefabs[4], transform.position, transform.rotation);
+                }
             }
-            if (PlayerControllerScript.weaponSelected == "Rocket Launcher")
-            {
-                Instantiate(prefabs[4], BulletPos.transform.position, BulletPos.transform.rotation);
-            }
+        }
+        else
+        {
+            Instantiate(prefabs[5], transform.position, transform.rotation);
         }
     }
     public void enemySpawner(int enemyType, int amount)

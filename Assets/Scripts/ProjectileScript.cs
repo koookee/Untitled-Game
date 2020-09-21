@@ -7,6 +7,8 @@ public class ProjectileScript : MonoBehaviour
     private Vector3 lastPosition;
     private float distanceTraveled;
     public int maxDistance = 25;
+    private Vector3 moveDirection = new Vector3(0, 0, 1);
+    public int speed = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,11 @@ public class ProjectileScript : MonoBehaviour
     void FixedUpdate()
     {
         bulletLifeTime();
+        ProjectileMove();
+    }
+    private void ProjectileMove()
+    {
+        transform.Translate(moveDirection * Time.deltaTime * speed);
     }
     private void bulletLifeTime()
     {
@@ -47,7 +54,7 @@ public class ProjectileScript : MonoBehaviour
                 Vector3 awayDirection = (enemyScript.transform.position - transform.position).normalized;
                 Vector3 distanceFromPlayer = (enemyScript.transform.position - transform.position);
                 //Only knocks back the enemies that are close to the player
-                //For extra fun, get rid of the if condition :)
+                //For extra fun, get rid of the if condition argument :)
                 if (distanceFromPlayer.magnitude < 10f)
                 {
                     int knockBackForce = 2;
