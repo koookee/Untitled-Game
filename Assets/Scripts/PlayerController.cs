@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private int weaponNum = 0;
     //Abilities:
     //Shield 
+    private bool isInvincible = false;
     private bool isShieldActive = false;
     private bool shieldCooledDown = true;
     public string shieldStatus = "Ready";
@@ -76,6 +77,12 @@ public class PlayerController : MonoBehaviour
             //Plays the heal sound effect
             AudioClips[1].Play();
             health++;
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.CompareTag("EnemyBullet"))
+        {
+            //If the shield isn't active, the player loses health
+            if (!isInvincible) health--;
             Destroy(other.gameObject);
         }
     }
@@ -156,6 +163,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1) && shieldCooledDown)
         {
             AudioClips[3].Play();
+            isInvincible = true;
             StartCoroutine(ShieldTimer(shieldDuration, shieldCoolDown));
             //Resets timers whenever player presses 1
             shieldDurationTimer = (float)shieldDuration;
@@ -251,6 +259,7 @@ public class PlayerController : MonoBehaviour
         Mesh.material.SetColor("_Color", coolingDownColor);
         isShieldActive = false;
         shieldStatus = "Cooling down";
+        isInvincible = false;
         yield return new WaitForSeconds(shieldCoolDown);
         Mesh.material.SetColor("_Color", whiteColor);
         shieldCooledDown = true;

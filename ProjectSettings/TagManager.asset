@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Health Pack
   - Rocket
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

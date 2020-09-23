@@ -15,12 +15,14 @@ public class EnemyScript : MonoBehaviour
     private float proximityDistance = 10f;
     public bool readyToFire = true;
     private int archerReloadTime = 5;
+    public GameObject bulletPos;
     // Start is called before the first frame update
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
         Player = GameObject.Find("Player").GetComponent<PlayerController>();
         SpawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManagerScript>();
+        bulletPos = GameObject.Find("ArcherBulletPos");
     }
 
     // Update is called once per frame
@@ -73,6 +75,7 @@ public class EnemyScript : MonoBehaviour
         //If archer is in the proximity of the player, it should stop moving
         if (enemyType == "Archer")
         {
+            transform.LookAt(GameObject.Find("Player").transform);
             //Calculates distance from archer to player
             Vector3 distanceToPlayer = (Player.transform.position - transform.position);
             if (distanceToPlayer.magnitude < proximityDistance)
@@ -89,7 +92,7 @@ public class EnemyScript : MonoBehaviour
         //Archer function that fires projectiles at player
         if (inProximityOfPlayer && readyToFire && enemyType == "Archer")
         {
-            SpawnManager.bulletSpawner(transform, false);
+            SpawnManager.bulletSpawner(bulletPos.transform, false);
             StartCoroutine(Timer(archerReloadTime, 1));
         }
     }
