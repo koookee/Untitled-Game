@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -8,14 +9,19 @@ public class EnemyScript : MonoBehaviour
     public Rigidbody enemyRb;
     public string enemyType;
     public PlayerController Player;
-    public int enemySpeed = 3;
-    public int health = 4;
-    public float forceApplied = 1f;
+    public int enemySpeed;
+    //maxHealth is a reference for the healthUI to calculate the percentage 
+    //of the enemy's current health
+    private int maxHealth;
+    public int health;
+    public float forceApplied;
     private bool inProximityOfPlayer;
     private float proximityDistance = 10f;
-    public bool readyToFire = true;
+    private bool readyToFire = true;
     private int archerReloadTime = 5;
     public GameObject bulletPos;
+    public GameObject HealthUI;
+    public Slider healthSlider;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +29,7 @@ public class EnemyScript : MonoBehaviour
         Player = GameObject.Find("Player").GetComponent<PlayerController>();
         SpawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManagerScript>();
         bulletPos = GameObject.Find("ArcherBulletPos");
+        maxHealth = health;
     }
 
     // Update is called once per frame
@@ -51,10 +58,16 @@ public class EnemyScript : MonoBehaviour
     }
     private void CheckForHealth()
     {
+        if(health != maxHealth)
+        {
+            //When enemy takes damage, activate their health UI
+            HealthUI.SetActive(true);
+        }
         if (health <= 0)
         {
             Destroy(gameObject);
         }
+        healthSlider.value = (float) health / maxHealth;
     }
     private void MoveTowardsPlayer()
     {
