@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3760803927382727822}
   - component: {fileID: 3760803927382727823}
   m_Layer: 0
-  m_Name: Enemy1 1
+  m_Name: Enemy1_old
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,3 +131,6 @@ MonoBehaviour:
   enemySpeed: 3
   health: 20
   forceApplied: 4
+  bulletPos: {fileID: 0}
+  HealthUI: {fileID: 0}
+  healthSlider: {fileID: 0}

@@ -35,7 +35,7 @@ public class EnemyScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        CheckForHealth();
+        Health();
         MoveTowardsPlayerParent();
         FireAtPlayer();
     }
@@ -48,7 +48,7 @@ public class EnemyScript : MonoBehaviour
             bulletParticles.Play();
             //Destroy(other.gameObject);
             if (other.gameObject.CompareTag("Bullet")) health--;
-            Debug.Log(health);
+            //Debug.Log(health);
             //Health reduction from rockets is in the projectile script
         }
         if (other.gameObject.CompareTag("Border"))
@@ -56,18 +56,35 @@ public class EnemyScript : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void CheckForHealth()
+    private void Health()
     {
+        //Manages HealthUI of enemies
         if(health != maxHealth)
         {
             //When enemy takes damage, activate their health UI
             HealthUI.SetActive(true);
         }
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-        }
+        //Slider value is based on the fraction value since it's between 0 and 1
         healthSlider.value = (float) health / maxHealth;
+        //These two if condition are only for Regular and Bull because when they rotate
+        //the health UI rotates with them. The code overrides the rotation around them
+        //and sets the position to a point above them.
+        if(enemyType == "Regular")
+        {
+            //Positions the slider above the enemy
+            Vector3 position = transform.position;
+            healthSlider.transform.position = new Vector3(position.x,position.y + 1,position.z);
+            //Makes the slider rotate to face the camera
+            healthSlider.transform.LookAt(GameObject.FindGameObjectWithTag("MainCamera").transform);
+        }
+        if (enemyType == "Bull")
+        {
+            //Positions the slider above the enemy
+            Vector3 position = transform.position;
+            healthSlider.transform.position = new Vector3(position.x, position.y + 2, position.z);
+            //Makes the slider rotate to face the camera
+            healthSlider.transform.LookAt(GameObject.FindGameObjectWithTag("MainCamera").transform);
+        }
     }
     private void MoveTowardsPlayer()
     {
