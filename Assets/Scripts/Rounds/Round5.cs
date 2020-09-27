@@ -42,11 +42,15 @@ public class Round5 : MonoBehaviour
         //1 is regular enemy / 3 is enemy1 in prefabs for spawn manager
         int enemy = 1;
         int enemy1 = 3;
+        int enemy2 = 6;
         SpawnManager.enemySpawner(enemy1, 1);
         yield return new WaitForSeconds(10);
         SpawnManager.enemySpawner(enemy, 10);
         yield return new WaitForSeconds(20);
         SpawnManager.enemySpawner(enemy1, 3);
+        yield return new WaitForSeconds(20);
+        SpawnManager.enemySpawner(enemy2, 3);
+
         allEnemiesSpawned = true;
     }
 }

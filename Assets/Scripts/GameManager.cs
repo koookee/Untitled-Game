@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,14 +14,17 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI playerGroundShatterText;
     public TextMeshProUGUI roundNum;
     public TextMeshProUGUI doubleJumpStatus;
+    public TextMeshProUGUI roundsSurvived;
     //Using Image instead of GameObject doesn't make it show up in the GameManager
     //game object like TextMeshProUGUI does
     public GameObject rayGunImage;
     public GameObject rocketLauncherImage;
+    public GameObject crossHair;
+    public GameObject weaponsUI;
+    public GameObject restartButton;
     public bool isGameOver = false;
     public PlayerController Player;
     public SpawnManagerScript SpawnManager;
-    //private GameObject[] enemyArr;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +64,7 @@ public class GameManager : MonoBehaviour
             mainCam.enabled = false;
             Player.gameObject.SetActive(false);
             isGameOver = true;
+            RestartGameUI();
         }
     }
     private void CheckEnemyHealth()
@@ -125,6 +130,43 @@ public class GameManager : MonoBehaviour
         //changing state of the game
         roundNum.text = "Round: " + SpawnManager.roundCounter;
         if (doubleJumpStatus.gameObject.activeSelf == true) StartCoroutine(Timer(4,1));
+    }
+    private void RestartGameUI()
+    {
+        //Turns off all UI first
+        playerHealthText.gameObject.SetActive(false);
+        playerShieldText.gameObject.SetActive(false);
+        playerGroundShatterText.gameObject.SetActive(false);
+        roundNum.gameObject.SetActive(false);
+        rayGunImage.gameObject.SetActive(false);
+        rocketLauncherImage.gameObject.SetActive(false);
+        crossHair.gameObject.SetActive(false);
+        weaponsUI.gameObject.SetActive(false);
+        //Turns on restart screen UI
+        roundsSurvived.gameObject.SetActive(true);
+        int roundSurvivedNum = SpawnManager.roundCounter - 1;
+        roundsSurvived.text = "Rounds survived: " + roundSurvivedNum;
+        restartButton.gameObject.SetActive(true);
+        UnityEngine.Cursor.visible = true;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+    }
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        //Turns off all UI first
+        playerHealthText.gameObject.SetActive(true);
+        playerShieldText.gameObject.SetActive(true);
+        playerGroundShatterText.gameObject.SetActive(true);
+        roundNum.gameObject.SetActive(true);
+        rayGunImage.gameObject.SetActive(true);
+        rocketLauncherImage.gameObject.SetActive(true);
+        crossHair.gameObject.SetActive(true);
+        weaponsUI.gameObject.SetActive(true);
+        //Turns on restart screen UI
+        roundsSurvived.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
     }
     IEnumerator Timer(int time, int section)
     {

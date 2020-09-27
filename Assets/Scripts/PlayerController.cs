@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private int rotateSpeed = 9 * 100;
     private bool isOnGround;
     public int health = 10;
+    private bool isMaxOnHealth = true;
     public AudioSource[] AudioClips;
     private ParticleSystem particles;
     private Renderer Mesh;
@@ -67,12 +68,13 @@ public class PlayerController : MonoBehaviour
         ShieldActivation(shieldDuration,shieldCoolDown);
         GroundSmash();
         WeaponSelector();
+        Health();
     }
 
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Health Pack"))
+        if (other.gameObject.CompareTag("Health Pack") && !isMaxOnHealth)
         {
             //Plays the heal sound effect
             AudioClips[1].Play();
@@ -265,5 +267,11 @@ public class PlayerController : MonoBehaviour
         shieldCooledDown = true;
         shieldStatus = "Ready";
     }
-    
+    private void Health()
+    {
+        //Checks to see if health is 5 to set isMaxOnHealth to true
+        //This prevents the player from going over 10 HP
+        if (health == 5) isMaxOnHealth = true;
+        else isMaxOnHealth = false;
+    }
 }

@@ -28,7 +28,6 @@ public class EnemyScript : MonoBehaviour
         enemyRb = GetComponent<Rigidbody>();
         Player = GameObject.Find("Player").GetComponent<PlayerController>();
         SpawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManagerScript>();
-        bulletPos = GameObject.Find("ArcherBulletPos");
         maxHealth = health;
     }
 
@@ -131,6 +130,7 @@ public class EnemyScript : MonoBehaviour
         //Section 1, readyToFire timer cooldown
         if (section == 1)
         {
+            Debug.Log("Test");
             readyToFire = false;
             yield return new WaitForSeconds(timer);
             readyToFire = true;
