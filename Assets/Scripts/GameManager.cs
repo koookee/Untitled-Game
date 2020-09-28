@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
             //I can't use enemy.health since I need the enemy's script component first
             //This is a quick method of adding the script then checking for the enemy's health
             EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
-            if (enemyScript.health == 0)
+            if (enemyScript.health <= 0)
             {
                 Destroy(enemy.gameObject);
             }
@@ -144,8 +144,7 @@ public class GameManager : MonoBehaviour
         weaponsUI.gameObject.SetActive(false);
         //Turns on restart screen UI
         roundsSurvived.gameObject.SetActive(true);
-        int roundSurvivedNum = SpawnManager.roundCounter - 1;
-        roundsSurvived.text = "Rounds survived: " + roundSurvivedNum;
+        roundsSurvived.text = "Rounds survived: " + (SpawnManager.roundCounter - 1);
         restartButton.gameObject.SetActive(true);
         UnityEngine.Cursor.visible = true;
         UnityEngine.Cursor.lockState = CursorLockMode.None;

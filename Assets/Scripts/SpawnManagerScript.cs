@@ -45,9 +45,11 @@ public class SpawnManagerScript : MonoBehaviour
                     //Plays the shooting sound effect
                     PlayerControllerScript.AudioClips[0].Play();
                 }
-                if (PlayerControllerScript.weaponSelected == "Rocket Launcher")
+                if (PlayerControllerScript.weaponSelected == "Rocket Launcher" && PlayerControllerScript.rocketAmmo > 0)
                 {
                     Instantiate(prefabs[4], transform.position, transform.rotation);
+                    PlayerControllerScript.rocketAmmo--;
+                    PlayerControllerScript.ammo.text = "Ammo: " + PlayerControllerScript.rocketAmmo;
                 }
             }
         }

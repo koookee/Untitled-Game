@@ -57,6 +57,7 @@ public class ProjectileScript : MonoBehaviour
                 //For extra fun, get rid of the if condition argument :)
                 if (distanceFromPlayer.magnitude < 10f)
                 {
+                    if (enemyScript.enemyType == "Archer") enemyScript.hasBeenLaunched = true;
                     int knockBackForce = 2;
                     awayDirection = new Vector3(awayDirection.x * knockBackForce, 1, awayDirection.z * knockBackForce);
                     enemyScript.enemyRb.AddForce(awayDirection * 10, ForceMode.Impulse);

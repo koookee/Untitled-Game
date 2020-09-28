@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -24,8 +25,10 @@ public class PlayerController : MonoBehaviour
     private Color whiteColor =new Color(1,1,1,1);
     private Color coolingDownColor = new Color(0.755f, 0.224f, 0.082f, 1.000f);
     //Weapon Arr
+    public TextMeshProUGUI ammo;
     public string[] weaponArr = new string[] {"Gun","Rocket Launcher"};
     public string weaponSelected = "";
+    public int rocketAmmo = 5; 
     //Weapon num is basically just the weapon array index
     private int weaponNum = 0;
     //Abilities:
@@ -210,6 +213,7 @@ public class PlayerController : MonoBehaviour
                 //For extra fun, get rid of the if condition argument :)
                 if (distanceFromPlayer.magnitude < 10f)
                 {
+                    if (enemyScript.enemyType == "Archer") enemyScript.hasBeenLaunched = true;
                     int knockBackForce = 2;
                     awayDirection = new Vector3(awayDirection.x * knockBackForce, 1, awayDirection.z * knockBackForce);
                     enemyScript.enemyRb.AddForce(awayDirection * 10, ForceMode.Impulse);
@@ -243,11 +247,18 @@ public class PlayerController : MonoBehaviour
         {
             weaponNum++;
             weaponSelected = weaponArr[weaponNum];
+            //Displays text when player first switches to rocket
+            ammo.text = "Ammo: " + rocketAmmo;
+            //Text updates in SpawnManagerScript
+            //Text updates when player clicks button/spawns rockets
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
         {
             weaponNum--;
             weaponSelected = weaponArr[weaponNum];
+            //Text doesn't have to constantly update because 
+            //it's always infinite
+            ammo.text = "Ammo: Infinite";
         }
     }
     IEnumerator ShieldTimer(int shieldDuration, int shieldCoolDown)

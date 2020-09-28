@@ -22,6 +22,8 @@ public class EnemyScript : MonoBehaviour
     public GameObject bulletPos;
     public GameObject HealthUI;
     public Slider healthSlider;
+    //Checks to see if archer has been launched by a rocket
+    public bool hasBeenLaunched = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,19 +42,24 @@ public class EnemyScript : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //When bullet collides with enemy
-        if (other.gameObject.CompareTag("Bullet") || other.gameObject.CompareTag("Rocket"))
-        {
-            ParticleSystem bulletParticles = other.gameObject.GetComponent<ParticleSystem>();
-            bulletParticles.Play();
-            //Destroy(other.gameObject);
-            if (other.gameObject.CompareTag("Bullet")) health--;
-            //Debug.Log(health);
-            //Health reduction from rockets is in the projectile script
-        }
+        
         if (other.gameObject.CompareTag("Border"))
         {
             Destroy(gameObject);
+        }
+        
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        //When bullet collides with enemy
+        if (collision.gameObject.CompareTag("Bullet") || collision.gameObject.CompareTag("Rocket"))
+        {
+            ParticleSystem bulletParticles = collision.gameObject.GetComponent<ParticleSystem>();
+            bulletParticles.Play();
+            //Destroy(other.gameObject);
+            if (collision.gameObject.CompareTag("Bullet")) health--;
+            //Debug.Log(health);
+            //Health reduction from rockets is in the projectile script
         }
     }
     private void Health()
@@ -107,11 +114,14 @@ public class EnemyScript : MonoBehaviour
             transform.LookAt(GameObject.Find("Player").transform);
             //Calculates distance from archer to player
             Vector3 distanceToPlayer = (Player.transform.position - transform.position);
-            if (distanceToPlayer.magnitude < proximityDistance)
+            if (distanceToPlayer.magnitude < proximityDistance && !hasBeenLaunched)
             {
                 inProximityOfPlayer = true;
                 enemyRb.velocity = new Vector3(0, 0, 0);
             }
+            //If an archer has been hit by a rocket, they'll float away into space  
+            //and never be seen again (self-destruct)
+            else if (hasBeenLaunched == true) StartCoroutine(Timer(5, 2));
             else inProximityOfPlayer = false;
             if (!inProximityOfPlayer) MoveTowardsPlayer();
         }
@@ -130,10 +140,18 @@ public class EnemyScript : MonoBehaviour
         //Section 1, readyToFire timer cooldown
         if (section == 1)
         {
-            Debug.Log("Test");
             readyToFire = false;
             yield return new WaitForSeconds(timer);
             readyToFire = true;
+        }
+        //Section 2, Archer launched by rocket
+        //after a certain period of time (timer) of floating
+        //in space, Archer will self-destruct
+        if (section == 2)
+        {
+            yield return new WaitForSeconds(timer);
+            Destroy(gameObject);
+            //gameObject being Archer
         }
     }
 }
