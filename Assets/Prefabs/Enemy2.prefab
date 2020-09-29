@@ -132,12 +132,12 @@ MonoBehaviour:
   enemyType: Archer
   Player: {fileID: 0}
   enemySpeed: 3
-  health: 60
+  health: 6
   forceApplied: 0.5
   bulletPos: {fileID: 8427508581347992305}
   HealthUI: {fileID: 8427508580149218996}
   healthSlider: {fileID: 8427508580255925382}
-  hasBeenHitByRocket: 0
+  hasBeenLaunched: 0
 --- !u!1 &8427508580003018717
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using UnityEngine;
 public class ProjectileScript : MonoBehaviour
 {
     private Vector3 lastPosition;
+    public GameObject[] prefabs;
     private float distanceTraveled;
     public int maxDistance = 25;
     private Vector3 moveDirection = new Vector3(0, 0, 1);
@@ -64,6 +65,13 @@ public class ProjectileScript : MonoBehaviour
                     enemyScript.health -= 3;
                 }
             }
+            //prefabs[0] is the rocket explosion
+            //Added +1 to the y position because explosion kept spawning in the ground
+            //instead of above
+            Vector3 position = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            GameObject Explosion = Instantiate(prefabs[0], position, transform.rotation);
+            //Destroys the explosion game object after 3 seconds
+            Destroy(Explosion, 3);
             Destroy(gameObject);
         }
     }
