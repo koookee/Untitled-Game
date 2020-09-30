@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI roundNum;
     public TextMeshProUGUI doubleJumpStatus;
     public TextMeshProUGUI roundsSurvived;
+    public TextMeshProUGUI gemsUI;
     //Using Image instead of GameObject doesn't make it show up in the GameManager
     //game object like TextMeshProUGUI does
     public GameObject rayGunImage;
@@ -79,7 +80,24 @@ public class GameManager : MonoBehaviour
             EnemyScript enemyScript = enemy.GetComponent<EnemyScript>();
             if (enemyScript.health <= 0)
             {
-                Destroy(enemy.gameObject);
+                switch (enemyScript.enemyType) 
+                {
+                    case "Regular":
+                        Player.gems += 20;
+                        Destroy(enemy.gameObject);
+                        break;
+                    case "Bull":
+                        Player.gems += 50;
+                        Destroy(enemy.gameObject);
+                        break;
+                    case "Archer":
+                        Player.gems += 40;
+                        Destroy(enemy.gameObject);
+                        break;
+                    default:
+                        Debug.Log("Unknown enemy type; please specify type");
+                        break;
+                }
             }
         }
     }
@@ -130,6 +148,7 @@ public class GameManager : MonoBehaviour
         //changing state of the game
         roundNum.text = "Round: " + SpawnManager.roundCounter;
         if (doubleJumpStatus.gameObject.activeSelf == true) StartCoroutine(Timer(4,1));
+        gemsUI.text = "Gems: " + Player.gems;
     }
     private void RestartGameUI()
     {
@@ -142,6 +161,7 @@ public class GameManager : MonoBehaviour
         rocketLauncherImage.gameObject.SetActive(false);
         crossHair.gameObject.SetActive(false);
         weaponsUI.gameObject.SetActive(false);
+        gemsUI.gameObject.SetActive(false);
         //Turns on restart screen UI
         roundsSurvived.gameObject.SetActive(true);
         roundsSurvived.text = "Rounds survived: " + (SpawnManager.roundCounter - 1);
@@ -163,6 +183,7 @@ public class GameManager : MonoBehaviour
         rocketLauncherImage.gameObject.SetActive(true);
         crossHair.gameObject.SetActive(true);
         weaponsUI.gameObject.SetActive(true);
+        gemsUI.gameObject.SetActive(false);
         //Turns on restart screen UI
         roundsSurvived.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);

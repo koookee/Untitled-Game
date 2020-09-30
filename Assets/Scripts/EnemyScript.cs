@@ -150,6 +150,10 @@ public class EnemyScript : MonoBehaviour
         if (section == 2)
         {
             yield return new WaitForSeconds(timer);
+            //Since the player killed the archer by launching them into space, they won't
+            //receive gems by reducing their health 0. This ensures the player receives
+            //gems no matter what their method of destroying the archer was
+            Player.gems += 40;
             Destroy(gameObject);
             //gameObject being Archer
         }

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private int rotateSpeed = 9 * 100;
     private bool isOnGround;
     public int health = 10;
+    public int gems = 0;
     private bool isMaxOnHealth = true;
     public AudioSource[] AudioClips;
     private ParticleSystem particles;

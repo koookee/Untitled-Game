@@ -10,6 +10,7 @@ public class ProjectileScript : MonoBehaviour
     public int maxDistance = 25;
     private Vector3 moveDirection = new Vector3(0, 0, 1);
     public int speed = 5;
+    public AudioSource rocketExplosionSound;
 
     // Start is called before the first frame update
     void Start()
