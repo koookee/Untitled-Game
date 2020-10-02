@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI doubleJumpStatus;
     public TextMeshProUGUI roundsSurvived;
     public TextMeshProUGUI gemsUI;
+    public bool isInventoryActive = false;
+    public GameObject inventoryUI;
     //Using Image instead of GameObject doesn't make it show up in the GameManager
     //game object like TextMeshProUGUI does
     public GameObject rayGunImage;
@@ -149,6 +151,26 @@ public class GameManager : MonoBehaviour
         roundNum.text = "Round: " + SpawnManager.roundCounter;
         if (doubleJumpStatus.gameObject.activeSelf == true) StartCoroutine(Timer(4,1));
         gemsUI.text = "Gems: " + Player.gems;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //If the inventory UI is already visible and the player presses E,
+            //turn off the UI. This is a shortcut to pressing on the close button
+            if (inventoryUI.activeSelf)
+            {
+                inventoryUI.SetActive(false);
+                UnityEngine.Cursor.visible = false;
+            }
+            else
+            {
+                UnityEngine.Cursor.visible = true;
+                inventoryUI.SetActive(true);
+            }
+        }
+    }
+    public void CloseInventoryUI()
+    {
+        inventoryUI.SetActive(false);
+        UnityEngine.Cursor.visible = false;
     }
     private void RestartGameUI()
     {

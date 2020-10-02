@@ -36,7 +36,8 @@ public class SpawnManagerScript : MonoBehaviour
         if (isThisFromPlayer)
         {
             //Spawns bullets from the player's side
-            if (Input.GetMouseButtonDown(0))
+            //If the player isn't viewing their inventory, they can shoot
+            if (Input.GetMouseButtonDown(0) && !GameManagerScript.inventoryUI.activeSelf)
             {
                 //Bullets spawn at the invisible object location attached to player (BulletPos)
                 if (PlayerControllerScript.weaponSelected == "Gun")

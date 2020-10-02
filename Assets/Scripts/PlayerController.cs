@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private GameManager GameManagerScript;
     private float vertical = 0f;
     private float horizontal = 0f;
     private Rigidbody playerRB;
@@ -54,6 +55,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
         weaponSelected = weaponArr[weaponNum];
         Mesh = GetComponent<Renderer>();
         playerRB = GetComponent<Rigidbody>();
@@ -238,9 +240,13 @@ public class PlayerController : MonoBehaviour
     }
     private void RotatePlayer()
     {
-        //Rotates player around the Y axis
-        float horizontalInput = Input.GetAxis("Mouse X");
-        transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
+        //If inventory is open, player can't rotate
+        if (!GameManagerScript.inventoryUI.activeSelf)
+        {
+            //Rotates player around the Y axis
+            float horizontalInput = Input.GetAxis("Mouse X");
+            transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
+        }
     }
     private void WeaponSelector()
     {
