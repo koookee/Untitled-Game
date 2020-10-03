@@ -137,11 +137,13 @@ public class GameManager : MonoBehaviour
         {
             rayGunImage.SetActive(true);
             rocketLauncherImage.SetActive(false);
+            Player.ammo.text = "Ammo: Infinite";
         }
         if (Player.weaponSelected == "Rocket Launcher")
         {
             rocketLauncherImage.SetActive(true);
             rayGunImage.SetActive(false);
+            Player.ammo.text = "Ammo: " + Player.rocketAmmo;
         }
     }
     private void roundUI()
@@ -171,6 +173,19 @@ public class GameManager : MonoBehaviour
     {
         inventoryUI.SetActive(false);
         UnityEngine.Cursor.visible = false;
+    }
+    public void BuyAmmo(int weaponType)
+    {
+        //Type 0 is rocket ammo
+        if(weaponType == 0)
+        {
+            //Makes sure player has enough gems
+            if(Player.gems >= 50)
+            {
+                Player.gems -= 50;
+                Player.rocketAmmo++;
+            }
+        }
     }
     private void RestartGameUI()
     {

@@ -50,7 +50,6 @@ public class SpawnManagerScript : MonoBehaviour
                 {
                     Instantiate(prefabs[4], transform.position, transform.rotation);
                     PlayerControllerScript.rocketAmmo--;
-                    PlayerControllerScript.ammo.text = "Ammo: " + PlayerControllerScript.rocketAmmo;
                 }
             }
         }

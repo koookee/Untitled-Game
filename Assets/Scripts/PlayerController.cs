@@ -254,18 +254,11 @@ public class PlayerController : MonoBehaviour
         {
             weaponNum++;
             weaponSelected = weaponArr[weaponNum];
-            //Displays text when player first switches to rocket
-            ammo.text = "Ammo: " + rocketAmmo;
-            //Text updates in SpawnManagerScript
-            //Text updates when player clicks button/spawns rockets
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
         {
             weaponNum--;
             weaponSelected = weaponArr[weaponNum];
-            //Text doesn't have to constantly update because 
-            //it's always infinite
-            ammo.text = "Ammo: Infinite";
         }
     }
     IEnumerator ShieldTimer(int shieldDuration, int shieldCoolDown)
