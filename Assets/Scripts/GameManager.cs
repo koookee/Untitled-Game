@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gemsUI;
     public bool isInventoryActive = false;
     public GameObject inventoryUI;
+    public GameObject rocketCheckmarkImage;
+    public GameObject rocketPrice;
+    private bool rocketPurchased = false;
     //Using Image instead of GameObject doesn't make it show up in the GameManager
     //game object like TextMeshProUGUI does
     public GameObject rayGunImage;
@@ -173,6 +176,17 @@ public class GameManager : MonoBehaviour
     {
         inventoryUI.SetActive(false);
         UnityEngine.Cursor.visible = false;
+    }
+    public void BuyWeapon(int weaponType)
+    {
+        //Type 0 is rocket launcher
+        if (weaponType == 0 && !rocketPurchased && Player.gems >= 300)
+        {
+            Player.gems -= 300;
+            rocketPrice.SetActive(false);
+            rocketCheckmarkImage.SetActive(true);
+            rocketPurchased = true;
+        }
     }
     public void BuyAmmo(int weaponType)
     {
