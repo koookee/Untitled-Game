@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     private void displayUI()
     {
         abilitiesUI();
-        weaponUI();
+        InventoryUI();
         roundUI();
     }
 
@@ -134,15 +134,15 @@ public class GameManager : MonoBehaviour
             playerGroundShatterText.text = "Ground shatter: Ready";
         }
     }
-    private void weaponUI()
+    private void InventoryUI()
     {
-        if (Player.weaponSelected == "Gun")
+        if (Player.inventorySlotSelected == "Gun")
         {
             rayGunImage.SetActive(true);
             rocketLauncherImage.SetActive(false);
             Player.ammo.text = "Ammo: Infinite";
         }
-        if (Player.weaponSelected == "Rocket Launcher")
+        if (Player.inventorySlotSelected == "Rocket Launcher")
         {
             rocketLauncherImage.SetActive(true);
             rayGunImage.SetActive(false);
@@ -186,6 +186,9 @@ public class GameManager : MonoBehaviour
             rocketPrice.SetActive(false);
             rocketCheckmarkImage.SetActive(true);
             rocketPurchased = true;
+            Player.inventory[Player.availableSlotNum] = "Rocket Launcher";
+            Player.availableSlotNum++; //Moves the index of the available slot to the one after it
+            //Potential bug: Function doesn't check if availableSlotNum reached its max (4)
         }
     }
     public void BuyAmmo(int weaponType)

@@ -27,12 +27,18 @@ public class PlayerController : MonoBehaviour
     private Color whiteColor =new Color(1,1,1,1);
     private Color coolingDownColor = new Color(0.755f, 0.224f, 0.082f, 1.000f);
     //Weapon Arr
-    public TextMeshProUGUI ammo;
+    /*
     public string[] weaponArr = new string[] {"Gun","Rocket Launcher"};
     public string weaponSelected = "";
-    public int rocketAmmo = 5; 
-    //Weapon num is basically just the weapon array index
-    private int weaponNum = 0;
+    private int weaponNum = 0; //Weapon num is basically just the weapon array index 
+    */
+    public int rocketAmmo = 5;
+    public TextMeshProUGUI ammo;
+    //Inventory arr
+    public string[] inventory = new string[] {"Gun","empty", "empty" , "empty" , "empty" };
+    public string inventorySlotSelected = "";
+    private int inventorySlotNum = 0;
+    public int availableSlotNum = 1; //The index of the available slot to be occupied by purchased weapons
     //Abilities:
     //Shield 
     private bool isInvincible = false;
@@ -56,7 +62,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManagerScript = GameObject.Find("GameManager").GetComponent<GameManager>();
-        weaponSelected = weaponArr[weaponNum];
+        inventorySlotSelected = inventory[inventorySlotNum];
         Mesh = GetComponent<Renderer>();
         playerRB = GetComponent<Rigidbody>();
         particles = GetComponent<ParticleSystem>();
@@ -73,7 +79,7 @@ public class PlayerController : MonoBehaviour
         JumpFunc();
         ShieldActivation(shieldDuration,shieldCoolDown);
         GroundSmash();
-        WeaponSelector();
+        InventorySelector();
         Health();
     }
 
@@ -248,18 +254,22 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(Vector3.up, horizontalInput * Time.deltaTime * rotateSpeed);
         }
     }
-    private void WeaponSelector()
+    
+    private void InventorySelector()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponNum < weaponArr.Length - 1)
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && inventorySlotNum < inventory.Length - 1)
         {
-            weaponNum++;
-            weaponSelected = weaponArr[weaponNum];
+            inventorySlotNum++;
+            inventorySlotSelected = inventory[inventorySlotNum];
+            Debug.Log(inventorySlotNum); Debug.Log(inventorySlotSelected);
         }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f && inventorySlotNum > 0)
         {
-            weaponNum--;
-            weaponSelected = weaponArr[weaponNum];
+            inventorySlotNum--;
+            inventorySlotSelected = inventory[inventorySlotNum];
+            Debug.Log(inventorySlotNum); Debug.Log(inventorySlotSelected);
         }
+        
     }
     IEnumerator ShieldTimer(int shieldDuration, int shieldCoolDown)
     {
@@ -285,4 +295,19 @@ public class PlayerController : MonoBehaviour
         if (health == 5) isMaxOnHealth = true;
         else isMaxOnHealth = false;
     }
+    /*
+     private void WeaponSelector()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f && weaponNum < weaponArr.Length - 1)
+        {
+            weaponNum++;
+            weaponSelected = weaponArr[weaponNum];
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0f && weaponNum > 0)
+        {
+            weaponNum--;
+            weaponSelected = weaponArr[weaponNum];
+        }
+    }
+     */
 }

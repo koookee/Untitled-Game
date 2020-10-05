@@ -40,13 +40,13 @@ public class SpawnManagerScript : MonoBehaviour
             if (Input.GetMouseButtonDown(0) && !GameManagerScript.inventoryUI.activeSelf)
             {
                 //Bullets spawn at the invisible object location attached to player (BulletPos)
-                if (PlayerControllerScript.weaponSelected == "Gun")
+                if (PlayerControllerScript.inventorySlotSelected == "Gun")
                 {
                     Instantiate(prefabs[0], transform.position, transform.rotation);
                     //Plays the shooting sound effect
                     PlayerControllerScript.AudioClips[0].Play();
                 }
-                if (PlayerControllerScript.weaponSelected == "Rocket Launcher" && PlayerControllerScript.rocketAmmo > 0)
+                if (PlayerControllerScript.inventorySlotSelected == "Rocket Launcher" && PlayerControllerScript.rocketAmmo > 0)
                 {
                     Instantiate(prefabs[4], transform.position, transform.rotation);
                     PlayerControllerScript.rocketAmmo--;
