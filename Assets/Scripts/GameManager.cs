@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
@@ -31,6 +32,12 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     public PlayerController Player;
     public SpawnManagerScript SpawnManager;
+    //Inventory UI
+    public Sprite gunSprite;
+    public Sprite rocketLauncherSprite;
+    public UnityEngine.UI.Image[] slotsUI;
+    public GameObject[] selectedUI; //Border around each inventory slot
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +50,11 @@ public class GameManager : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         //Keeps the mouse in the playmode area
         UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        slotsUI[1].enabled = false; //Turns off the image component of the empty slots
+        slotsUI[2].enabled = false; //slotsUI[0] stays on because that's the default gun
+        slotsUI[3].enabled = false;
+        slotsUI[4].enabled = false;
+
     }
 
     // Update is called once per frame
@@ -52,7 +64,6 @@ public class GameManager : MonoBehaviour
         displayUI();
         CheckPlayerHealth();
         CheckEnemyHealth();
-        
     }
     private void displayUI()
     {
@@ -187,6 +198,8 @@ public class GameManager : MonoBehaviour
             rocketCheckmarkImage.SetActive(true);
             rocketPurchased = true;
             Player.inventory[Player.availableSlotNum] = "Rocket Launcher";
+            slotsUI[Player.availableSlotNum].enabled = true; //enables the empty slot image
+            slotsUI[Player.availableSlotNum].sprite = rocketLauncherSprite; //sets the image to the rocket sprite
             Player.availableSlotNum++; //Moves the index of the available slot to the one after it
             //Potential bug: Function doesn't check if availableSlotNum reached its max (4)
         }

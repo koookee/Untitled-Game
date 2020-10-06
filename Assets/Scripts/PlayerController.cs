@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     //Inventory arr
     public string[] inventory = new string[] {"Gun","empty", "empty" , "empty" , "empty" };
     public string inventorySlotSelected = "";
-    private int inventorySlotNum = 0;
+    private int inventorySlotNum = 0; //inventorySlotNum is basically just the inventory array index
     public int availableSlotNum = 1; //The index of the available slot to be occupied by purchased weapons
     //Abilities:
     //Shield 
@@ -262,12 +262,16 @@ public class PlayerController : MonoBehaviour
             inventorySlotNum++;
             inventorySlotSelected = inventory[inventorySlotNum];
             Debug.Log(inventorySlotNum); Debug.Log(inventorySlotSelected);
+            GameManagerScript.selectedUI[inventorySlotNum].SetActive(true); //Moves the slot border to the new selected slot
+            GameManagerScript.selectedUI[inventorySlotNum - 1].SetActive(false);//Turns off the border of the previously selected slot
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0f && inventorySlotNum > 0)
         {
             inventorySlotNum--;
             inventorySlotSelected = inventory[inventorySlotNum];
             Debug.Log(inventorySlotNum); Debug.Log(inventorySlotSelected);
+            GameManagerScript.selectedUI[inventorySlotNum].SetActive(true);
+            GameManagerScript.selectedUI[inventorySlotNum + 1].SetActive(false);
         }
         
     }
